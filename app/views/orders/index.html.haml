@@ -12,6 +12,7 @@
         %th Destination
         %th Cost
         %th Date & Time
+        %th Car Type
         %th Driver Name
     %tbody
       - @orders.each do |order|
@@ -31,6 +32,9 @@
             = order.cost
           %td 
             = order.datetime
+          %td
+            = order.car_type  
           %td 
-            = order.driver.firstname
-            = order.driver.lastname 
+            - if order.driver
+              = order.driver.firstname
+              = order.driver.lastname 

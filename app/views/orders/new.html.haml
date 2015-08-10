@@ -1,0 +1,22 @@
+%h2 
+  %center
+    New order
+  .row
+    .large-6.small-centered.columns
+      = form_for @order do |f|
+        %fieldset
+          %legend Order information
+
+          = f.label "Departure"
+          = f.text_field :departure
+
+          = f.label "Destination"
+          = f.text_field :destination
+
+          = f.label "Date & Time"
+          = f.date_select :datetime
+
+          = f.label "Car Type"
+          = f.select :car_type, [['Sedan', :sedan], ['Minivan', :minivan], ['Truck', :trusk]], :prompt => 'Select Car Type'
+
+          = f.submit "Create Order", class: 'button expand'

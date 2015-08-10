@@ -11,9 +11,19 @@ class OrdersController < ApplicationController
   end
 
   def new
+    @order = Order.new
   end
 
   def create
+    @order = Order.new(order_params)
+    @order.client = current_user
+    @order.status = :pending
+    if @order.save
+      flash[:notice] = "Order successfully created"
+      redirect_to root_path
+    else
+      render action: "new"
+    end
   end
 
   def assign_driver
@@ -30,4 +40,11 @@ class OrdersController < ApplicationController
 
   def reject
   end  
+
+  private
+
+  def order_params
+    params.require(:order).permit(:departure, :destination, :datetime, :car_type)
+  end
+    
 end
