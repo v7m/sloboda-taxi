@@ -1,0 +1,34 @@
+%center  
+  %h2
+    Orders
+  %br
+  %table
+    %thead
+      %tr
+        %th Order Id
+        %th Status
+        %th Departure
+        %th Destination
+        %th Cost
+        %th Date & Time
+        %th Client
+        %th Driver
+    %tbody
+      - @orders.each do |order|
+        %tr
+          %td 
+            = order.id
+          %td 
+            = order.status
+          %td 
+            = order.departure
+          %td 
+            = order.destination
+          %td 
+            = order.cost
+          %td 
+            = order.datetime
+          %td 
+            = order.client.email
+          %td 
+            = order.driver.email

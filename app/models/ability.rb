@@ -7,7 +7,7 @@ class Ability
       can :manage, :all
       can :access, :rails_admin      
       can :dashboard
-    elsif user.has_role? :distatcher
+    elsif user.has_role? :dispatcher
       can :read, [User, Order] 
       can :assign_driver, Order 
       can :reject, Order 

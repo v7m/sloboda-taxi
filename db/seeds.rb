@@ -11,38 +11,60 @@ driver_role = Role.create(name: 'driver')
 dispatcher_role = Role.create(name: 'dispatcher')
 admin_role = Role.create(name: 'admin')
 
-client = User.create( 
+client1 = User.create( 
   password: '12345678', 
-  email: 'client@example.com'
+  email: 'client1@example.com'
   )
+client1.roles << client_role
 
-driver = User.create( 
+client2 = User.create( 
   password: '12345678', 
-  email: 'driver@example.com',
+  email: 'client2@example.com'
+  )
+client2.roles << client_role
+
+driver1 = User.create( 
+  password: '12345678', 
+  email: 'driver1@example.com',
   car_type: 1
   )
+driver1.roles << driver_role
+
+driver2 = User.create( 
+  password: '12345678', 
+  email: 'driver2@example.com',
+  car_type: 1
+  )
+driver2.roles << driver_role
 
 dispatcher = User.create( 
   password: '12345678', 
   email: 'dispatcher@example.com'
   )
+dispatcher.roles << dispatcher_role
 
 admin = User.create( 
   password: '12345678', 
   email: 'admin@example.com'
   )
+admin.roles << admin_role
 
-order = Order.create(
+order1 = Order.create(
   status: 2, 
-  departure: 'q',
-  destination: '1',
+  departure: 'Address 1',
+  destination: 'Address 2',
   datetime: Time.now,
   car_type: 1,
-  client: client,
-  driver: driver
+  client: client1,
+  driver: driver1
   )
 
-client.roles << client_role
-driver.roles << driver_role
-dispatcher.roles << dispatcher_role
-admin.roles << admin_role
+order2 = Order.create(
+  status: 2, 
+  departure: 'Address 1',
+  destination: 'Address 2',
+  datetime: Time.now,
+  car_type: 1,
+  client: client2,
+  driver: driver2
+  )

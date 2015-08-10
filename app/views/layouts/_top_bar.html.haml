@@ -29,5 +29,6 @@
     <!-- Left Nav Section -->
     %ul.left
       %li
-        - if can? :manage, :all
-          = link_to "Admin", rails_admin_path
+        = link_to "Admin", rails_admin_path if can? :manage, :all
+      %li  
+        = link_to "Orders", orders_path if can? :read, Order

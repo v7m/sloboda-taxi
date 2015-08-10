@@ -1,6 +1,10 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user! 
 
   def index
+    @orders = Order.all
+    @drivers =  User.joins(:roles).where(roles: {name: 'driver'})
+    authorize! :read, Order
   end
   
   def show
