@@ -22,6 +22,16 @@ driver = User.create(
   car_type: 1
   )
 
+dispatcher = User.create( 
+  password: '12345678', 
+  email: 'dispatcher@example.com'
+  )
+
+admin = User.create( 
+  password: '12345678', 
+  email: 'admin@example.com'
+  )
+
 order = Order.create(
   status: 2, 
   departure: 'q',
@@ -34,3 +44,5 @@ order = Order.create(
 
 client.roles << client_role
 driver.roles << driver_role
+dispatcher.roles << dispatcher_role
+admin.roles << admin_role
