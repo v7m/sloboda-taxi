@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'faker', '~> 1.4.3'
 gem 'rails_admin', '~> 0.6.8'
 # Abilities for users
 gem "cancan"
