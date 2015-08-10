@@ -29,4 +29,5 @@
     <!-- Left Nav Section -->
     %ul.left
       %li
-        = link_to "LEFT", "#"
+        - if can? :manage, :all
+          = link_to "Admin", rails_admin_path

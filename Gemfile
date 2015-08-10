@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'rails_admin', '~> 0.6.8'
 # Abilities for users
 gem "cancan"
 # Foundation
