@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
-#Foundation
+# Abilities for users
+gem "cancan"
+# Foundation
 gem 'foundation-rails'
 # For authorization
 gem 'devise'
