@@ -6,8 +6,10 @@
     %table
       %thead
         %tr
-          %th Order Id
-          %th Client Name
+          %th Info  
+          %th Order
+          %th Client
+          %th Driver
           %th Departure
           %th Destination
           %th Cost
@@ -15,20 +17,25 @@
           %th Car Type
           %th Status
           - if can? :assign_driver, Order
-            %th Driver Name
             %th Assign Driver 
             %th Reject Order
           - elsif can? :confirm, Order 
             %th Confirm Order
-            %th Edit Order  
+            %th Edit Order 
       %tbody
         - @orders.each do |order|
           %tr
+            %td 
+              = button_to "Show", order_show_path(order), method: :get, class: "button tiny round info"
             %td 
               = order.id
             %td 
               = order.client.firstname
               = order.client.lastname  
+            %td 
+              - if order.driver
+                = order.driver.firstname
+                = order.driver.lastname   
             %td 
               = order.departure
             %td 
@@ -38,14 +45,11 @@
             %td 
               = order.datetime
             %td
-              = order.car_type 
+              = order.car_type.capitalize 
             %td 
-              = order.status  
+              = order.status.capitalize
+
             - if can? :assign_driver, Order   
-              %td 
-                - if order.driver
-                  = order.driver.firstname
-                  = order.driver.lastname
               - unless order.closed? || order.confirmed?   
                 %td  
                   - if order.driver  
@@ -55,6 +59,7 @@
                 - unless order.rejected?
                   %td 
                     = button_to "Reject Order", order_reject_path(order), method: :put, class: "button tiny round alert"  
+
             - elsif can? :confirm, Order 
               %td 
                 - if order.pending?
@@ -63,6 +68,4 @@
                   = button_to "Close Order", order_close_path(order), method: :put, class: "button tiny round success"
               %td 
                 - if order.pending? || order.confirmed?
-                  = button_to "Edit Order", order_edit_path(order), method: :get, class: "button tiny round info" 
-
-                   
+                  = button_to "Edit Order", order_edit_path(order), method: :get, class: "button tiny round secondary" 

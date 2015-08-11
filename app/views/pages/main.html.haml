@@ -1,5 +1,20 @@
 %br
-  %center
-    .panel.callout.radius
-      %h2
-        = link_to "Create New Order", orders_new_path
+  .row
+    .large-8.small-centered.columns
+      %center
+        - if can? :menege, :all
+          %center
+            %h2 Login as admin
+          = button_to "Administration", rails_admin_path, method: :get, class: "button radius success"
+        - elsif can? :create, Order
+          %center
+            %h2 Login as client
+          = button_to "Create New Order", orders_new_path, method: :get, class: "button radius success"
+        - elsif can? :assign_driver, Order
+          %center
+            %h2 Login as dispatcher
+          = button_to "Orders", orders_path, method: :get, class: "button radius success"  
+        - elsif can? :confirm, Order
+          %center
+            %h2 Login as driver
+          = button_to "My Orders", orders_path, method: :get, class: "button radius success"   

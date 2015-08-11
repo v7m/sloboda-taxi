@@ -1,0 +1,46 @@
+%center
+  %h2
+    Order №
+    = @order.id
+    .large-10.small-centered.columns
+      %table{style: "width: 500px;"}
+        %tbody
+          %tr 
+            %td Status
+            %td 
+              = @order.status.capitalize 
+          %tr 
+            %td Created 
+            %td 
+              = @order.created_at     
+          %tr 
+            %td Client
+            %td 
+              = @order.client.firstname
+              = @order.client.lastname          
+          %tr 
+            %td Client
+            %td
+              - if @order.driver
+                = @order.driver.firstname
+                = @order.driver.lastname 
+          %tr 
+            %td Departure
+            %td    
+              = @order.departure
+          %tr 
+            %td Destination
+            %td  
+              = @order.destination     
+          %tr 
+            %td Cost     
+            %td 
+              = @order.cost
+          %tr 
+            %td Date & Time    
+            %td 
+              = @order.datetime
+          %tr 
+            %td Car Type     
+            %td
+              = @order.car_type.capitalize 

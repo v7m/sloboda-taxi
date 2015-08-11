@@ -8,6 +8,8 @@ class OrdersController < ApplicationController
       @drivers =  User.joins(:roles).where(roles: {name: 'driver'})
     elsif can? :confirm, Order 
       @orders = Order.where(driver: current_user).order(updated_at: :desc)
+    elsif can? :create, Order 
+      @orders = Order.where(client: current_user).order(updated_at: :desc)  
     end  
     authorize! :read, Order
   end

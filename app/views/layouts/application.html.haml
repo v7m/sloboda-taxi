@@ -20,6 +20,7 @@
     = content_tag :div, :id => "flash_name", :class => "alert-box error" do 
       = flash[:error]  
 
-  = debug(params)      
-
   = yield
+
+  .panel.callout.radius
+    = debug(params) 

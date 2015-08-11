@@ -11,7 +11,7 @@
     %ul.right
       - if user_signed_in?
         %li.has-dropdown
-          = link_to current_user.email, '#'
+          = link_to current_user.email
           %ul.dropdown
             %li
               = link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link'
@@ -19,7 +19,7 @@
               = link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link', data: { confirm: 'Are you sure to Logout?'}
       - else   
         %li.has-dropdown
-          = link_to "User", "#"
+          = link_to "User"
           %ul.dropdown
             %li
               = link_to "Sign up", new_user_registration_path, :class => 'navbar-link'
@@ -28,7 +28,20 @@
 
     <!-- Left Nav Section -->
     %ul.left
-      %li
-        = link_to "Admin", rails_admin_path if can? :manage, :all
-      %li  
-        = link_to "Orders", orders_path if can? :read, Order
+      - if can? :manage, :all
+        %li  
+          = link_to "Orders", orders_path
+        %li
+          = link_to "Administration", rails_admin_path
+      - elsif can? :assign_driver, Order  
+        %li  
+          = link_to "Orders", orders_path
+      - elsif can? :confirm, Order  
+        %li
+          = link_to "My Orders", orders_path 
+      - elsif can? :create, Order  
+        %li
+          = link_to "My Orders", orders_path  
+        %li
+          = link_to "New Order", orders_new_path      
+      
