@@ -1,9 +1,14 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user! 
+  before_action :get_order, only: [:edit_driver, :assign_driver]
 
   def index
-    @orders = Order.all
-    @drivers =  User.joins(:roles).where(roles: {name: 'driver'})
+    if can? :assign_driver, Order
+      @orders = Order.all
+      @drivers =  User.joins(:roles).where(roles: {name: 'driver'})
+    elsif can? :confirm, Order 
+      @orders = Order.where(driver: current_user)
+    end  
     authorize! :read, Order
   end
   
@@ -12,6 +17,7 @@ class OrdersController < ApplicationController
 
   def new
     @order = Order.new
+    authorize! :create, Order
   end
 
   def create
@@ -24,9 +30,22 @@ class OrdersController < ApplicationController
     else
       render action: "new"
     end
+    authorize! :create, Order
   end
 
+  def edit_driver
+    @drivers =  User.joins(:roles).where(roles: {name: 'driver'})
+    authorize! :assign_driver, Order
+  end  
+
   def assign_driver
+    if @order.update(params[:order].permit(:driver_id))
+      flash[:notice] = "Driver successfully assigned"
+      redirect_to orders_path
+    else
+      render action: "index"
+    end
+    authorize! :assign_driver, Order
   end
 
   def confirm
@@ -42,6 +61,10 @@ class OrdersController < ApplicationController
   end  
 
   private
+
+  def get_order
+    @order = Order.find(params[:id])
+  end  
 
   def order_params
     params.require(:order).permit(:departure, :destination, :datetime, :car_type)

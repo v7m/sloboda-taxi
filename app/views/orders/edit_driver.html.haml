@@ -1,0 +1,6 @@
+%br
+  .row
+    .large-6.small-centered.columns
+      = form_for :order, url: {action: "assign_driver"}, html: { method: :put } do |f|
+        = f.select(:driver_id, @drivers.map { |d| [d.firstname + ' ' + d.lastname, d.id]  })
+        = f.submit "Assign Driver", class: 'button tiny'

@@ -13,7 +13,12 @@
         %th Cost
         %th Date & Time
         %th Car Type
-        %th Driver Name
+        - if can? :assign_driver, Order
+          %th Driver Name
+          %th Assign Driver 
+        - elsif can? :confirm, Order 
+          %th Confirm Order
+          %th Edit Order  
     %tbody
       - @orders.each do |order|
         %tr
@@ -33,8 +38,16 @@
           %td 
             = order.datetime
           %td
-            = order.car_type  
-          %td 
-            - if order.driver
-              = order.driver.firstname
-              = order.driver.lastname 
+            = order.car_type 
+          - if can? :assign_driver, Order   
+            %td 
+              - if order.driver
+                = order.driver.firstname
+                = order.driver.lastname
+            %td    
+              = button_to "Assign Driver", order_edit_driver_path(order), method: :get, class: "button tiny round"
+          - elsif can? :confirm, Order 
+            %td 
+              = button_to "Confirm Order", "#", method: :get, class: "button tiny round success"
+            %td 
+              = button_to "Edit Order", "#", method: :get, class: "button tiny round alert"    

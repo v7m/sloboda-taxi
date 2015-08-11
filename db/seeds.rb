@@ -65,7 +65,7 @@ admin = User.create(
 admin.roles << admin_role
 
 order1 = Order.create(
-  status: 2, 
+  status: 0, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
@@ -81,5 +81,45 @@ order2 = Order.create(
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
   car_type: 1,
   client: client2,
+  driver: driver2
+  )
+
+order3 = Order.create(
+  status: 0, 
+  departure: Faker::Address.street_address,
+  destination: Faker::Address.street_address,
+  datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
+  car_type: 1,
+  client: client1,
+  driver: driver2
+  )
+
+order4 = Order.create(
+  status: 0, 
+  departure: Faker::Address.street_address,
+  destination: Faker::Address.street_address,
+  datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
+  car_type: 1,
+  client: client2,
+  driver: driver1
+  )
+
+order5 = Order.create(
+  status: 1, 
+  departure: Faker::Address.street_address,
+  destination: Faker::Address.street_address,
+  datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
+  car_type: 1,
+  client: client2,
+  driver: driver2
+  )
+
+order6 = Order.create(
+  status: 3, 
+  departure: Faker::Address.street_address,
+  destination: Faker::Address.street_address,
+  datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
+  car_type: 1,
+  client: client1,
   driver: driver2
   )

@@ -17,6 +17,6 @@
           = f.date_select :datetime
 
           = f.label "Car Type"
-          = f.select :car_type, [['Sedan', :sedan], ['Minivan', :minivan], ['Truck', :trusk]], :prompt => 'Select Car Type'
+          = f.select :car_type, [['Sedan', :sedan], ['Minivan', :minivan], ['Truck', :truck]], :prompt => 'Select Car Type'
 
           = f.submit "Create Order", class: 'button expand'
