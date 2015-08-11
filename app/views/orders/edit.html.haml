@@ -9,16 +9,6 @@
 
           = f.hidden_field :status, value: 'edited'
 
-          = f.label "Departure"
-          = f.text_field :departure
-
-          = f.label "Destination"
-          = f.text_field :destination
-
-          = f.label "Date & Time"
-          = f.date_select :datetime
-
-          = f.label "Car Type"
-          = f.select :car_type, [['Sedan', :sedan], ['Minivan', :minivan], ['Truck', :truck]], :prompt => 'Select Car Type'
+          = render partial: 'form', locals: { f: f }
 
           = f.submit "Save Order", class: 'button expand'

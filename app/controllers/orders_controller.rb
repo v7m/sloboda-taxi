@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
     @order.client = current_user
     if @order.save
       flash[:notice] = "Order successfully created"
-      redirect_to root_path
+      redirect_to order_show_path(@order)
     else
       render action: "new"
     end
