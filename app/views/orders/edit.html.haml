@@ -1,13 +1,13 @@
 %h2 
   %center
-    New order
+    Edit Order
   .row
     .large-6.small-centered.columns
-      = form_for @order do |f|
+      = form_for @order, url: {action: "change"}, html: { method: :put } do |f|
         %fieldset
           %legend Order information
 
-          = f.hidden_field :status, value: 'pending'
+          = f.hidden_field :status, value: 'edited'
 
           = f.label "Departure"
           = f.text_field :departure
@@ -21,4 +21,4 @@
           = f.label "Car Type"
           = f.select :car_type, [['Sedan', :sedan], ['Minivan', :minivan], ['Truck', :truck]], :prompt => 'Select Car Type'
 
-          = f.submit "Create Order", class: 'button expand'
+          = f.submit "Save Order", class: 'button expand'

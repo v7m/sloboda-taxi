@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   put 'orders/:id/assign_driver' => 'orders#assign_driver', as: 'order_assign_driver'
   put 'orders/:id/confirm' => 'orders#confirm', as: 'order_confirm'
   put 'orders/:id/close' => 'orders#close', as: 'order_close'
+  get 'orders/:id/edit' => 'orders#edit', as: 'order_edit'
+  put 'orders/:id/change' => 'orders#change', as: 'order_change'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

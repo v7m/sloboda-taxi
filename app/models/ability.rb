@@ -14,7 +14,7 @@ class Ability
     elsif user.has_role? :driver
       can :read, Order
       can :confirm, Order
-      can :edit, Order
+      can :change, Order
       can :close, Order
     elsif user.has_role? :client
       can :read, Order

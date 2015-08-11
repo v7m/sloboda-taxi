@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user! 
-  before_action :get_order, only: [:edit_driver, :assign_driver, :confirm, :close]
+  before_action :get_order, except: [:new, :create, :index]
 
   def index
     if can? :assign_driver, Order
@@ -23,7 +23,6 @@ class OrdersController < ApplicationController
   def create
     @order = Order.new(order_params)
     @order.client = current_user
-    @order.status = :pending
     if @order.save
       flash[:notice] = "Order successfully created"
       redirect_to root_path
@@ -39,9 +38,7 @@ class OrdersController < ApplicationController
   end  
 
   def assign_driver
-    if @order.update(params[:order].permit(:driver_id))
-      @order.status = 'pending'
-      @order.save
+    if @order.update(params[:order].permit(:driver_id, :status))
       flash[:notice] = "Driver successfully assigned"
       redirect_to orders_path
     else
@@ -60,6 +57,18 @@ class OrdersController < ApplicationController
   end
 
   def edit
+    authorize! :change, Order
+  end
+
+  def change
+    @order.update(order_params)
+    if @order.save
+      flash[:notice] = "Order successfully updated"
+      redirect_to orders_path
+    else
+      render action: "edit"
+    end
+    authorize! :change, Order
   end
 
   def close
@@ -81,7 +90,7 @@ class OrdersController < ApplicationController
   end  
 
   def order_params
-    params.require(:order).permit(:departure, :destination, :datetime, :car_type)
+    params.require(:order).permit(:departure, :destination, :datetime, :car_type, :status)
   end
     
 end

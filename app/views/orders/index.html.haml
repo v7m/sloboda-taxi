@@ -57,4 +57,4 @@
                 = button_to "Close Order", order_close_path(order), method: :put, class: "button tiny round success"
             %td 
               - if order.pending? || order.confirmed?
-                = button_to "Edit Order", "#", method: :get, class: "button tiny round info"    
+                = button_to "Edit Order", order_edit_path(order), method: :get, class: "button tiny round info"    
