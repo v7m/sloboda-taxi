@@ -81,6 +81,12 @@ class OrdersController < ApplicationController
   end
 
   def reject
+    @order.status = 'rejected'
+    if @order.save
+      flash[:notice] = "Order successfully rejected"
+      redirect_to orders_path
+    end 
+    authorize! :reject, Order
   end  
 
   private
