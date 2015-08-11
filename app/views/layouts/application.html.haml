@@ -14,10 +14,10 @@
   = render partial: "layouts/top_bar" 
 
   - if flash[:notice] 
-    = content_tag :div, :id => "flash_name", :class => "alert-box success" do 
+    = content_tag :div, id: "flash_name", class: "alert-box success" do 
       = flash[:notice]
   - if flash[:error] 
-    = content_tag :div, :id => "flash_name", :class => "alert-box error" do 
+    = content_tag :div, id: "flash_name", class: "alert-box error" do 
       = flash[:error]  
 
   = yield

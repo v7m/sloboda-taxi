@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   put 'orders/:id/change' => 'orders#change', as: 'order_change'
   put 'orders/:id/reject' => 'orders#reject', as: 'order_reject'
   get 'orders/:id/show' => 'orders#show', as: 'order_show'
+  put 'orders/:id/feedback' => 'orders#add_feedback', as: 'order_add_feedback'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

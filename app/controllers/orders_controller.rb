@@ -78,7 +78,9 @@ class OrdersController < ApplicationController
     if @order.save
       flash[:notice] = "Order successfully closed"
       redirect_to orders_path
-    end 
+    else
+      render action: "index"
+    end
     authorize! :close, Order
   end
 
@@ -87,8 +89,20 @@ class OrdersController < ApplicationController
     if @order.save
       flash[:notice] = "Order successfully rejected"
       redirect_to orders_path
-    end 
+    else
+      render action: "index"
+    end
     authorize! :reject, Order
+  end  
+
+  def add_feedback
+    if @order.update(params[:order].permit(:feedback, :rating))
+      flash[:notice] = "Feedback successfully rejected"
+      redirect_to order_show_path(@order)
+    else
+      render action: "show"
+    end  
+    authorize! :add_feedback, Order
   end  
 
   private

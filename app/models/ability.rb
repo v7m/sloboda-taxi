@@ -19,6 +19,7 @@ class Ability
     elsif user.has_role? :client
       can :read, Order
       can :create, Order
+      can :add_feedback, Order
     end 
     # Define abilities for the passed in user here. For example:
     #

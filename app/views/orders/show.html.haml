@@ -2,45 +2,68 @@
   %h2
     Order №
     = @order.id
-    .large-10.small-centered.columns
-      %table{style: "width: 500px;"}
-        %tbody
-          %tr 
-            %td Status
-            %td 
-              = @order.status.capitalize 
-          %tr 
-            %td Created 
-            %td 
-              = @order.created_at     
-          %tr 
-            %td Client
-            %td 
-              = @order.client.firstname
-              = @order.client.lastname          
-          %tr 
-            %td Client
-            %td
-              - if @order.driver
-                = @order.driver.firstname
-                = @order.driver.lastname 
-          %tr 
-            %td Departure
-            %td    
-              = @order.departure
-          %tr 
-            %td Destination
-            %td  
-              = @order.destination     
-          %tr 
-            %td Cost     
-            %td 
-              = @order.cost
-          %tr 
-            %td Date & Time    
-            %td 
-              = @order.datetime
-          %tr 
-            %td Car Type     
-            %td
-              = @order.car_type.capitalize 
+  %table{style: "width: 500px;"}
+    %tbody
+      %tr 
+        %td Status
+        %td 
+          = @order.status.capitalize 
+      %tr 
+        %td Created 
+        %td 
+          = @order.created_at     
+      %tr 
+        %td Client
+        %td 
+          = @order.client.firstname
+          = @order.client.lastname          
+      %tr 
+        %td Driver
+        %td
+          - if @order.driver
+            = @order.driver.firstname
+            = @order.driver.lastname 
+      %tr 
+        %td Departure
+        %td    
+          = @order.departure
+      %tr 
+        %td Destination
+        %td  
+          = @order.destination     
+      %tr 
+        %td Cost     
+        %td 
+          = @order.cost
+      %tr 
+        %td Date & Time    
+        %td 
+          = @order.datetime
+      %tr 
+        %td Car Type     
+        %td
+          = @order.car_type.capitalize 
+- if @order.feedback
+  .row
+    .large-6.small-centered.columns
+      %center
+        %h2 Feedback
+      .panel.radius
+        %h4
+          =@order.rating
+        = @order.feedback        
+- else
+  -if @order.closed? && can?(:add_feedback, Order)
+    .row
+      .large-6.small-centered.columns
+        = form_for @order, url: {action: "add_feedback"}, html: { method: :put } do |f|
+          %fieldset
+            %legend Add Feedback
+
+            = f.label "Feedback"
+            = f.text_area :feedback
+
+            = f.label "Rating"
+            = f.select :rating, (1..10).to_a
+
+            = f.submit "Add Feedback", class: 'button expand'        
