@@ -44,10 +44,17 @@
               - if order.driver
                 = order.driver.firstname
                 = order.driver.lastname
-            %td    
-              = button_to "Assign Driver", order_edit_driver_path(order), method: :get, class: "button tiny round"
+            %td  
+              - if order.driver  
+                = button_to "Change Driver", order_edit_driver_path(order), method: :get, class: "button tiny round success"
+              - else  
+                = button_to "Assign Driver", order_edit_driver_path(order), method: :get, class: "button tiny round"
           - elsif can? :confirm, Order 
             %td 
-              = button_to "Confirm Order", "#", method: :get, class: "button tiny round success"
+              - if order.pending?
+                = button_to "Confirm Order", order_confirm_path(order), method: :put, class: "button tiny round alert"
+              - if order.confirmed?  
+                = button_to "Close Order", "#", method: :put, class: "button tiny round success"
             %td 
-              = button_to "Edit Order", "#", method: :get, class: "button tiny round alert"    
+              - if order.pending? || order.confirmed?
+                = button_to "Edit Order", "#", method: :get, class: "button tiny round info"    

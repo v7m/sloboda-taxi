@@ -1,13 +1,13 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user! 
-  before_action :get_order, only: [:edit_driver, :assign_driver]
+  before_action :get_order, only: [:edit_driver, :assign_driver, :confirm]
 
   def index
     if can? :assign_driver, Order
-      @orders = Order.all
+      @orders = Order.all.order(updated_at: :desc)
       @drivers =  User.joins(:roles).where(roles: {name: 'driver'})
     elsif can? :confirm, Order 
-      @orders = Order.where(driver: current_user)
+      @orders = Order.where(driver: current_user).order(updated_at: :desc)
     end  
     authorize! :read, Order
   end
@@ -40,6 +40,8 @@ class OrdersController < ApplicationController
 
   def assign_driver
     if @order.update(params[:order].permit(:driver_id))
+      @order.status = 'pending'
+      @order.save
       flash[:notice] = "Driver successfully assigned"
       redirect_to orders_path
     else
@@ -49,6 +51,11 @@ class OrdersController < ApplicationController
   end
 
   def confirm
+    @order.status = 'confirmed'
+    if @order.save
+      flash[:notice] = "Order successfully confirmed"
+      redirect_to orders_path
+    end  
   end
 
   def edit
