@@ -53,7 +53,10 @@ class OrdersController < ApplicationController
     @order.status = 'confirmed'
     if @order.save
       flash[:notice] = "Order successfully confirmed"
-      redirect_to orders_path
+      respond_to do |format|
+        format.html { redirect_to orders_path }
+        format.js { render :confirm }
+      end
     end  
     authorize! :confirm, Order
   end
@@ -77,10 +80,11 @@ class OrdersController < ApplicationController
     @order.status = 'closed'
     if @order.save
       flash[:notice] = "Order successfully closed"
-      redirect_to orders_path
-    else
-      render action: "index"
-    end
+      respond_to do |format|
+        format.html { redirect_to orders_path }
+        format.js { render :close }
+      end
+    end  
     authorize! :close, Order
   end
 

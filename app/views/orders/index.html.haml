@@ -47,7 +47,7 @@
               = order.datetime
             %td
               = order.car_type.capitalize 
-            %td 
+            %td{ id: "order_#{order.id}_status" } 
               = order.status.capitalize
 
             - if can? :assign_driver, Order   
@@ -62,11 +62,11 @@
                     = button_to "Reject Order", order_reject_path(order), method: :put, class: "button tiny round alert"  
 
             - elsif can? :confirm, Order 
-              %td 
+              %td{ id: "order_#{order.id}_add_driver" }  
                 - if order.pending?
-                  = button_to "Confirm Order", order_confirm_path(order), method: :put, class: "button tiny round alert"
+                  = button_to "Confirm Order", order_confirm_path(order), method: :put, class: "button tiny round alert", remote: true
                 - if order.confirmed?  
-                  = button_to "Close Order", order_close_path(order), method: :put, class: "button tiny round success"
-              %td 
+                  = button_to "Close Order", order_close_path(order), method: :put, class: "button tiny round success", remote: true
+              %td{ id: "order_#{order.id}_edit" }  
                 - if order.pending? || order.confirmed?
                   = button_to "Edit Order", order_edit_path(order), method: :get, class: "button tiny round secondary" 
