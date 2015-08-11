@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user! 
-  before_action :get_order, only: [:edit_driver, :assign_driver, :confirm]
+  before_action :get_order, only: [:edit_driver, :assign_driver, :confirm, :close]
 
   def index
     if can? :assign_driver, Order
@@ -56,12 +56,19 @@ class OrdersController < ApplicationController
       flash[:notice] = "Order successfully confirmed"
       redirect_to orders_path
     end  
+    authorize! :confirm, Order
   end
 
   def edit
   end
 
   def close
+    @order.status = 'closed'
+    if @order.save
+      flash[:notice] = "Order successfully closed"
+      redirect_to orders_path
+    end 
+    authorize! :close, Order
   end
 
   def reject
