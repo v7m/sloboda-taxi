@@ -4,4 +4,5 @@ class Order < ActiveRecord::Base
 
   enum status: [:closed, :pending, :confirmed, :edited, :rejected]
   enum car_type: [:sedan, :minivan, :truck]
+
 end

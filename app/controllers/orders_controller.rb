@@ -5,7 +5,7 @@ class OrdersController < ApplicationController
   def index
     if can? :assign_driver, Order
       @orders = Order.all.order(updated_at: :desc)
-      @drivers =  User.joins(:roles).where(roles: {name: 'driver'})
+      @drivers =  User.with_role(:driver)
     elsif can? :confirm, Order 
       @orders = Order.where(driver: current_user).order(updated_at: :desc)
     elsif can? :create, Order 
