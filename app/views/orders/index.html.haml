@@ -27,7 +27,7 @@
         - @orders.each do |order|
           %tr
             %td 
-              = button_to "Show", order_show_path(order), method: :get, class: "button tiny round info"
+              = button_to "Show", order_path(order), method: :get, class: "button tiny round info"
             %td 
               = order.id
             %td 
@@ -54,18 +54,18 @@
               - unless order.closed? || order.confirmed?   
                 %td  
                   - if order.driver  
-                    = button_to "Change Driver", order_edit_driver_path(order), method: :get, class: "button tiny round success"
+                    = button_to "Change Driver", edit_driver_order_path(order), method: :get, class: "button tiny round success"
                   - else  
-                    = button_to "Assign Driver", order_edit_driver_path(order), method: :get, class: "button tiny round"
+                    = button_to "Assign Driver", edit_driver_order_path(order), method: :get, class: "button tiny round"
                 - unless order.rejected?
                   %td{ id: "order_#{order.id}_reject" }  
-                    = button_to "Reject Order", order_reject_path(order), method: :put, class: "button tiny round alert", remote: true  
+                    = button_to "Reject Order", reject_order_path(order), method: :put, class: "button tiny round alert", remote: true  
 
             - elsif can? :confirm, Order 
               %td{ id: "order_#{order.id}_add_driver" }  
                 - if order.pending?
-                  = button_to "Confirm Order", order_confirm_path(order), method: :put, class: "button tiny round alert", remote: true
+                  = button_to "Confirm Order", confirm_order_path(order), method: :put, class: "button tiny round alert", remote: true
                 - if order.confirmed?  
-                  = button_to "Close Order", order_close_path(order), method: :put, class: "button tiny round success", remote: true
+                  = button_to "Close Order", close_order_path(order), method: :put, class: "button tiny round success", remote: true
               %td
-                = button_to "Edit Order", order_edit_path(order), method: :get, class: "button tiny round secondary" 
+                = button_to "Edit Order", edit_order_path(order), method: :get, class: "button tiny round secondary" 

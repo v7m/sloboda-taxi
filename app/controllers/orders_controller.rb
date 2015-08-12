@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
     @order.client = current_user
     if @order.save
       flash[:notice] = "Order successfully created"
-      redirect_to order_show_path(@order)
+      redirect_to order_path(@order)
     else
       render action: "new"
     end
@@ -103,7 +103,7 @@ class OrdersController < ApplicationController
   def add_feedback
     if @order.update(params[:order].permit(:feedback, :rating))
       flash[:notice] = "Feedback successfully rejected"
-      redirect_to order_show_path(@order)
+      redirect_to order_path(@order)
     else
       render action: "show"
     end  
