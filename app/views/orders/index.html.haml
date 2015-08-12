@@ -58,8 +58,8 @@
                   - else  
                     = button_to "Assign Driver", order_edit_driver_path(order), method: :get, class: "button tiny round"
                 - unless order.rejected?
-                  %td 
-                    = button_to "Reject Order", order_reject_path(order), method: :put, class: "button tiny round alert"  
+                  %td{ id: "order_#{order.id}_reject" }  
+                    = button_to "Reject Order", order_reject_path(order), method: :put, class: "button tiny round alert", remote: true  
 
             - elsif can? :confirm, Order 
               %td{ id: "order_#{order.id}_add_driver" }  
@@ -67,6 +67,5 @@
                   = button_to "Confirm Order", order_confirm_path(order), method: :put, class: "button tiny round alert", remote: true
                 - if order.confirmed?  
                   = button_to "Close Order", order_close_path(order), method: :put, class: "button tiny round success", remote: true
-              %td{ id: "order_#{order.id}_edit" }  
-                - if order.pending? || order.confirmed?
-                  = button_to "Edit Order", order_edit_path(order), method: :get, class: "button tiny round secondary" 
+              %td
+                = button_to "Edit Order", order_edit_path(order), method: :get, class: "button tiny round secondary" 

@@ -92,9 +92,10 @@ class OrdersController < ApplicationController
     @order.status = 'rejected'
     if @order.save
       flash[:notice] = "Order successfully rejected"
-      redirect_to orders_path
-    else
-      render action: "index"
+      respond_to do |format|
+        format.html { redirect_to orders_path }
+        format.js { render :reject }
+      end
     end
     authorize! :reject, Order
   end  
