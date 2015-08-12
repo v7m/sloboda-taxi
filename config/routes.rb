@@ -10,6 +10,18 @@ Rails.application.routes.draw do
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
+  get 'orders' => 'orders#index'
+  get 'orders/new' => 'orders#new'
+  post 'orders' => 'orders#create'
+  get 'orders/:id/edit_driver' => 'orders#edit_driver', as: 'order_edit_driver'
+  put 'orders/:id/assign_driver' => 'orders#assign_driver', as: 'order_assign_driver'
+  put 'orders/:id/confirm' => 'orders#confirm', as: 'order_confirm'
+  put 'orders/:id/close' => 'orders#close', as: 'order_close'
+  get 'orders/:id/edit' => 'orders#edit', as: 'order_edit'
+  put 'orders/:id/change' => 'orders#change', as: 'order_change'
+  put 'orders/:id/reject' => 'orders#reject', as: 'order_reject'
+  get 'orders/:id/show' => 'orders#show', as: 'order_show'
+  put 'orders/:id/feedback' => 'orders#add_feedback', as: 'order_add_feedback'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

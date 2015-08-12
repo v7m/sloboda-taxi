@@ -1,0 +1,14 @@
+= content_for :title, "New Order"
+%h2 
+  %center New order
+  .row
+    .large-6.small-centered.columns
+      = form_for @order do |f|
+        %fieldset
+          %legend Order information
+
+          = f.hidden_field :status, value: 'pending'
+
+          = render partial: 'form', locals: { f: f }
+
+          = f.submit "Create Order", class: 'button expand'

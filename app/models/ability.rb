@@ -7,18 +7,19 @@ class Ability
       can :manage, :all
       can :access, :rails_admin      
       can :dashboard
-    elsif user.has_role? :distatcher
+    elsif user.has_role? :dispatcher
       can :read, [User, Order] 
       can :assign_driver, Order 
       can :reject, Order 
     elsif user.has_role? :driver
       can :read, Order
       can :confirm, Order
-      can :edit, Order
+      can :change, Order
       can :close, Order
     elsif user.has_role? :client
       can :read, Order
       can :create, Order
+      can :add_feedback, Order
     end 
     # Define abilities for the passed in user here. For example:
     #

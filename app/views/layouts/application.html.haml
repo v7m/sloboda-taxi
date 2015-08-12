@@ -4,12 +4,20 @@
     %meta{ charset: "utf-8" }
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0" } 
     %title
-      = content_for?(:title) ? yield(:title) : "foundation-rails"
+      = content_for?(:title) ? yield(:title) : "Sloboda Taxi"
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true 
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = javascript_include_tag "vendor/modernizr"
     = csrf_meta_tags
   %body
+
   = render partial: "layouts/top_bar" 
+
+  - if flash[:notice] 
+    = content_tag :div, id: "flash_name", class: "alert-box success" do 
+      = flash[:notice]
+  - if flash[:error] 
+    = content_tag :div, id: "flash_name", class: "alert-box error" do 
+      = flash[:error]  
 
   = yield
