@@ -74,6 +74,7 @@ class OrdersController < ApplicationController
   def change
     @order.update(order_params)
     if @order.save
+      WebsocketRails[:orders].trigger 'change', @order
       flash[:notice] = "Order successfully updated"
       redirect_to orders_path
     else

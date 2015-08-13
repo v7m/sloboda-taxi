@@ -55,3 +55,7 @@ channel.bind('reject', function(order) {
     $(this).remove();
   });
 });
+
+channel.bind('change', function(order) {
+  $("#dispatcher_table > .order_" + order.id + " > .status").html("<b>" + order.status.capitalizeFirstLetter() + "</b>");
+});
