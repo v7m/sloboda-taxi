@@ -96,6 +96,7 @@ class OrdersController < ApplicationController
   def reject
     @order.status = 'rejected'
     if @order.save
+      WebsocketRails[:orders].trigger 'reject', @order
       flash[:notice] = "Order successfully rejected"
       respond_to do |format|
         format.html { redirect_to orders_path }

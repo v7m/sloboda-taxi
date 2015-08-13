@@ -43,3 +43,9 @@ channel.bind('confirm', function(order) {
 channel.bind('close', function(order) {
   $("#dispatcher_table > .order_" + order.id + " > .status").html("<b>" + order.status.capitalizeFirstLetter() + "</b>");
 });
+
+channel.bind('reject', function(order) {
+  $("#driver_" + order.driver_id + "_table > .order_" + order.id).hide("slow", function(){
+    $(this).remove();
+  });
+});
