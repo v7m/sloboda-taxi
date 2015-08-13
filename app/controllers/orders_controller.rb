@@ -27,6 +27,7 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.client = current_user
     if @order.save
+      WebsocketRails[:orders].trigger 'new', @order  
       flash[:notice] = "Order successfully created"
       redirect_to order_path(@order)
     else
