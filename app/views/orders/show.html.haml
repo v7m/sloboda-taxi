@@ -7,9 +7,8 @@
     %tbody
       %tr 
         %td Status
-        %td{ id: "order_#{@order.id}_status" }  
-          %b
-            = @order.status.capitalize 
+        %td{ id: "order_#{@order.id}_status" } 
+          = @order.status.capitalize 
       %tr 
         %td Created 
         %td 
@@ -51,7 +50,14 @@
     - unless @order.closed? || @order.confirmed?   
       %div{ id: "order_#{@order.id}_assign_driver" } 
         - if !@order.driver
-          = button_to "Assign Driver", edit_driver_order_path(@order), method: :get, class: "button tiny round"
+          .row
+            .large-6.small-centered.columns
+              %fieldset
+                %legend Assign Driver
+                = form_for :order, url: {action: "assign_driver"}, html: { method: :put }, remote: true do |f|
+                  = f.hidden_field :status, value: 'pending'
+                  = f.select(:driver_id, @drivers.map { |d| [d.firstname + ' ' + d.lastname, d.id]  })
+                  = f.submit "Assign Driver", class: 'button tiny round'
       %div{ id: "order_#{@order.id}_accept_changes" } 
         - if @order.edited? 
           = button_to "Accept changes", accept_changes_order_path(@order), method: :put, class: "button tiny round success", remote: true     

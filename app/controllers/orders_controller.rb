@@ -18,6 +18,7 @@ class OrdersController < ApplicationController
   end
   
   def show
+    @drivers =  User.with_role(:driver)
     authorize! :read, Order
   end
 
@@ -48,7 +49,10 @@ class OrdersController < ApplicationController
     if @order.update(params[:order].permit(:driver_id, :status))
       WebsocketRails[:orders].trigger 'assign_driver', @order 
       flash[:notice] = "Driver successfully assigned"
-      redirect_to order_path(@order)
+      respond_to do |format|
+        format.html { redirect_to order_path(@order) }
+        format.js { render :assign_driver }
+      end
     else
       render action: "index"
     end
@@ -108,6 +112,7 @@ class OrdersController < ApplicationController
   end
 
   def reject
+    @drivers =  User.with_role(:driver)
     @order.status = 'rejected'
     if @order.save
       WebsocketRails[:orders].trigger 'reject', @order
