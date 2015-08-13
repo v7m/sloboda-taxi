@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user! 
   before_action :get_order, except: [:new, :create, :index]
+  after_action :delete_driver, only: :reject
 
   def index
     if can? :assign_driver, Order
@@ -125,5 +126,9 @@ class OrdersController < ApplicationController
   def order_params
     params.require(:order).permit(:departure, :destination, :datetime, :car_type, :status)
   end
-    
+
+  def delete_driver
+    @order.driver_id = nil
+    @order.save
+  end  
 end
