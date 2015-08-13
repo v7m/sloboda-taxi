@@ -11,21 +11,21 @@ class UserMailer < ApplicationMailer
     @user = user
     @order = order
     @url  = order_url(@order)
-    mail(to: @user.email, subject: 'Your order has been confirmed!')
+    mail(to: @user.email, subject: 'Your Order has been confirmed!')
   end
 
   def reject_order_email(user, order)
     @user = user
     @order = order
     @url  = order_url(@order)
-    mail(to: @user.email, subject: 'Your order has been rejected!')
+    mail(to: @user.email, subject: 'Your Order has been rejected!')
   end
 
   def close_order_email(user, order)
     @user = user
     @order = order
     @url  = order_url(@order)
-    mail(to: @user.email, subject: 'Your order has been closed!')
+    mail(to: @user.email, subject: 'Your Order has been closed!')
   end
 
 end

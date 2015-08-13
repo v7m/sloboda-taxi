@@ -6,6 +6,33 @@
   %body
     %h3= "Hi, #{@user.firstname} #{@user.lastname}!"
     %p You have successfully created new Order!
+    %table{style: "width: 500px;"}
+      %tbody
+        %tr 
+          %td Status
+          %td 
+            = @order.status.capitalize    
+        %tr 
+          %td Client
+          %td 
+            = @order.client.firstname
+            = @order.client.lastname   
+        %tr 
+          %td Departure
+          %td    
+            = @order.departure
+        %tr 
+          %td Destination
+          %td  
+            = @order.destination    
+        %tr 
+          %td Date & Time    
+          %td 
+            = @order.datetime
+        %tr 
+          %td Car Type     
+          %td
+            = @order.car_type.capitalize 
     %p 
       To see details, just follow this link: 
       = link_to @url, @url
