@@ -59,3 +59,7 @@ channel.bind('reject', function(order) {
 channel.bind('change', function(order) {
   $("#dispatcher_table > .order_" + order.id + " > .status").html("<b>" + order.status.capitalizeFirstLetter() + "</b>");
 });
+
+channel.bind('accept_changes', function(order) {
+  $("#driver_" + order.driver_id + "_table > .order_" + order.id + " > .status").html("<b>" + order.status.capitalizeFirstLetter() + "</b>");
+});

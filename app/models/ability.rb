@@ -11,6 +11,7 @@ class Ability
       can :read, [User, Order] 
       can :assign_driver, Order 
       can :reject, Order 
+      can :accept_changes, Order
     elsif user.has_role? :driver
       can :read, Order
       can :confirm, Order

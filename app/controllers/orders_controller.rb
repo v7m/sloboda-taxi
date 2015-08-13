@@ -76,11 +76,23 @@ class OrdersController < ApplicationController
     if @order.save
       WebsocketRails[:orders].trigger 'change', @order
       flash[:notice] = "Order successfully updated"
-      redirect_to redirect_to order_path(@order)
+      redirect_to order_path(@order)
     else
       render action: "edit"
     end
     authorize! :change, Order
+  end
+
+  def accept_changes
+    @order.status = 'pending'
+    if @order.save
+      WebsocketRails[:orders].trigger 'accept_changes', @order
+      respond_to do |format|
+        format.html { redirect_to order_path(@order) }
+        format.js { render :accept_changes }
+      end
+    end  
+    authorize! :accept_changes, Order
   end
 
   def close

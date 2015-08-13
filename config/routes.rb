@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       put :change 
       put :reject 
       put :feedback 
+      put :accept_changes
     end
   end    
 
