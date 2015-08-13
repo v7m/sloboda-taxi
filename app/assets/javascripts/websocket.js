@@ -1,4 +1,4 @@
-var dispatcher = new WebSocketRails('localhost:3000/websocket');
+var dispatcher = new WebSocketRails(window.location.host + '/websocket');
 channel = dispatcher.subscribe('orders');
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
