@@ -15,6 +15,7 @@ class OrdersController < ApplicationController
   end
   
   def show
+    authorize! :read, Order
   end
 
   def new
