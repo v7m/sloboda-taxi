@@ -3,6 +3,7 @@ channel = dispatcher.subscribe('orders');
 String.prototype.capitalizeFirstLetter = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
+
 channel.bind('new', function(order) {
   $("#dispatcher_table").prepend(
     "<tr class='order_" + order.id + "'>" 
@@ -18,6 +19,7 @@ channel.bind('new', function(order) {
         + "<td class='status'><b>" + order.status.capitalizeFirstLetter() + "</b></td>"
     + "<tr>");
 });
+
 channel.bind('assign_driver', function(order) {
   $("#driver_" + order.driver_id + "_table").prepend(
     "<tr class='order_" + order.id + "'>" 
@@ -32,4 +34,8 @@ channel.bind('assign_driver', function(order) {
         + "<td class='car_type'>" + order.car_type.capitalizeFirstLetter() + "</td>"
         + "<td class='status'><b>" + order.status.capitalizeFirstLetter() + "</b></td>"
     + "<tr>");
+});
+
+channel.bind('confirm', function(order) {
+  $("#dispatcher_table > .order_" + order.id + " > .status").html("<b>" + order.status.capitalizeFirstLetter() + "</b>");
 });

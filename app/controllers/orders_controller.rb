@@ -58,6 +58,7 @@ class OrdersController < ApplicationController
     @order.status = 'confirmed'
     if @order.save
       flash[:notice] = "Order successfully confirmed"
+      WebsocketRails[:orders].trigger 'confirm', @order 
       respond_to do |format|
         format.html { redirect_to orders_path }
         format.js { render :confirm }
