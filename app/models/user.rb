@@ -11,7 +11,9 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
 
-  enum car_type: [:sedan, :minivan, :truck]    
+  enum car_type: [:sedan, :minivan, :truck]  
+
+  scope :with_role, -> (role) { joins(:roles).where(roles: {name: role.to_s}) }  
 
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
