@@ -1,0 +1,11 @@
+!!!
+%html
+  %head
+    %meta{ content: 'text/html; charset=UTF-8', http:{ equiv: 'Content-Type' } }
+  %head
+  %body
+    %h3= "Hi, #{@user.firstname} #{@user.lastname}!"
+    %p Your Order has been confirmed!
+    %p 
+      To see details, just follow this link: 
+      = link_to @url, @url

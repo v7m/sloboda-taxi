@@ -31,6 +31,7 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.client = current_user
     if @order.save
+      UserMailer.create_order_email(@order.client, @order).deliver_now
       WebsocketRails[:orders].trigger 'new', @order  
       flash[:notice] = "Order successfully created"
       redirect_to order_path(@order)
@@ -62,6 +63,7 @@ class OrdersController < ApplicationController
   def confirm
     @order.status = 'confirmed'
     if @order.save
+      UserMailer.confirm_order_email(@order.client, @order).deliver_now
       WebsocketRails[:orders].trigger 'confirm', @order 
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
@@ -102,6 +104,7 @@ class OrdersController < ApplicationController
   def close
     @order.status = 'closed'
     if @order.save
+      UserMailer.close_order_email(@order.client, @order).deliver_now
       WebsocketRails[:orders].trigger 'close', @order
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
@@ -115,6 +118,7 @@ class OrdersController < ApplicationController
     @drivers =  User.with_role(:driver)
     @order.status = 'rejected'
     if @order.save
+      UserMailer.reject_order_email(@order.client, @order).deliver_now
       WebsocketRails[:orders].trigger 'reject', @order
       flash[:notice] = "Order successfully rejected"
       respond_to do |format|
