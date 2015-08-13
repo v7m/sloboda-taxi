@@ -57,7 +57,6 @@ class OrdersController < ApplicationController
   def confirm
     @order.status = 'confirmed'
     if @order.save
-      flash[:notice] = "Order successfully confirmed"
       WebsocketRails[:orders].trigger 'confirm', @order 
       respond_to do |format|
         format.html { redirect_to orders_path }
@@ -85,7 +84,7 @@ class OrdersController < ApplicationController
   def close
     @order.status = 'closed'
     if @order.save
-      flash[:notice] = "Order successfully closed"
+      WebsocketRails[:orders].trigger 'close', @order
       respond_to do |format|
         format.html { redirect_to orders_path }
         format.js { render :close }

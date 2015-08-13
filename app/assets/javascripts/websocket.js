@@ -39,3 +39,7 @@ channel.bind('assign_driver', function(order) {
 channel.bind('confirm', function(order) {
   $("#dispatcher_table > .order_" + order.id + " > .status").html("<b>" + order.status.capitalizeFirstLetter() + "</b>");
 });
+
+channel.bind('close', function(order) {
+  $("#dispatcher_table > .order_" + order.id + " > .status").html("<b>" + order.status.capitalizeFirstLetter() + "</b>");
+});
