@@ -1,0 +1,27 @@
+%center
+  %h2 Orders
+%table
+  %thead
+    %tr
+      %th Info  
+      %th Order
+      %th Departure
+      %th Destination
+      %th Car Type
+      %th Status 
+  %tbody{ id: 'dispatcher_table' }
+    - orders.each do |order|
+      %tr
+        %td 
+          = button_to "Show", order_path(order), method: :get, class: "button tiny round info"
+        %td 
+          = order.id  
+        %td 
+          = order.departure
+        %td 
+          = order.destination
+        %td
+          = order.car_type.capitalize 
+        %td
+          %b
+            = order.status.capitalize  

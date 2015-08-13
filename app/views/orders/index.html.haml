@@ -1,46 +1,9 @@
 = content_for :title, "Orders"
-%center  
-  %h2
-    Orders
 .row
-  .large-12.small-centered.columns
-    %table
-      %thead
-        %tr
-          %th Info  
-          %th Order
-          %th Client
-          %th Driver
-          %th Departure
-          %th Destination
-          %th Cost
-          %th Date & Time
-          %th Car Type
-          %th Status 
-      %tbody
-        - @orders.each do |order|
-          %tr
-            %td 
-              = button_to "Show", order_path(order), method: :get, class: "button tiny round info"
-            %td 
-              = order.id
-            %td 
-              = order.client.firstname
-              = order.client.lastname  
-            %td 
-              - if order.driver
-                = order.driver.firstname
-                = order.driver.lastname   
-            %td 
-              = order.departure
-            %td 
-              = order.destination
-            %td 
-              = order.cost
-            %td 
-              = order.datetime
-            %td
-              = order.car_type.capitalize 
-            %td
-              %b
-                = order.status.capitalize
+  .large-8.small-centered.columns
+    - if can? :assign_driver, Order
+      = render partial: "dispatcher_index", locals: { orders: @orders}
+    - elsif can? :confirm, Order
+      = render partial: "driver_index", locals: { orders: @orders}
+    - elsif can? :create, Order
+      = render partial: "client_index", locals: { orders: @orders}  
