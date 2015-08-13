@@ -16,13 +16,7 @@
           %th Cost
           %th Date & Time
           %th Car Type
-          %th Status
-          - if can? :assign_driver, Order
-            %th Assign Driver 
-            %th Reject Order
-          - elsif can? :confirm, Order 
-            %th Confirm Order
-            %th Edit Order 
+          %th Status 
       %tbody
         - @orders.each do |order|
           %tr
@@ -47,25 +41,6 @@
               = order.datetime
             %td
               = order.car_type.capitalize 
-            %td{ id: "order_#{order.id}_status" } 
-              = order.status.capitalize
-
-            - if can? :assign_driver, Order   
-              - unless order.closed? || order.confirmed?   
-                %td  
-                  - if order.driver  
-                    = button_to "Change Driver", edit_driver_order_path(order), method: :get, class: "button tiny round success"
-                  - else  
-                    = button_to "Assign Driver", edit_driver_order_path(order), method: :get, class: "button tiny round"
-                - unless order.rejected?
-                  %td{ id: "order_#{order.id}_reject" }  
-                    = button_to "Reject Order", reject_order_path(order), method: :put, class: "button tiny round alert", remote: true  
-
-            - elsif can? :confirm, Order 
-              %td{ id: "order_#{order.id}_add_driver" }  
-                - if order.pending?
-                  = button_to "Confirm Order", confirm_order_path(order), method: :put, class: "button tiny round alert", remote: true
-                - if order.confirmed?  
-                  = button_to "Close Order", close_order_path(order), method: :put, class: "button tiny round success", remote: true
-              %td
-                = button_to "Edit Order", edit_order_path(order), method: :get, class: "button tiny round secondary" 
+            %td
+              %b
+                = order.status.capitalize

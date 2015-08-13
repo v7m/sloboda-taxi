@@ -1,2 +1,2 @@
-$("#order_#{@order.id}_status").html('Confirmed');
-$("#order_#{@order.id}_add_driver").html("#{escape_javascript(button_to 'Close Order', order_close_path(@order), method: :put, class: 'button tiny round success', remote: true)}");
+$("#order_#{@order.id}_status").html('<b>Confirmed</b>');
+$("#order_#{@order.id}_add_driver").html("#{escape_javascript(button_to 'Close Order', close_order_path(@order), method: :put, class: 'button tiny round success', remote: true)}");

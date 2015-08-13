@@ -7,8 +7,9 @@
     %tbody
       %tr 
         %td Status
-        %td 
-          = @order.status.capitalize 
+        %td{ id: "order_#{@order.id}_status" }  
+          %b
+            = @order.status.capitalize 
       %tr 
         %td Created 
         %td 
@@ -44,6 +45,31 @@
         %td Car Type     
         %td
           = @order.car_type.capitalize 
+
+%center
+  - if can? :assign_driver, Order   
+    - unless @order.closed? || @order.confirmed?   
+      %div
+        - if @order.driver  
+          = button_to "Change Driver", edit_driver_order_path(@order), method: :get, class: "button tiny round success"
+        - else  
+          = button_to "Assign Driver", edit_driver_order_path(@order), method: :get, class: "button tiny round"
+      - unless @order.rejected?
+        %div{ id: "order_#{@order.id}_reject" }  
+          = button_to "Reject Order", reject_order_path(@order), method: :put, class: "button tiny round alert", remote: true  
+
+  - elsif can? :confirm, Order 
+    %div{ id: "order_#{@order.id}_add_driver" }  
+      - if @order.pending?
+        = button_to "Confirm Order", confirm_order_path(@order), method: :put, class: "button tiny round alert", remote: true
+      - if @order.confirmed?  
+        = button_to "Close Order", close_order_path(@order), method: :put, class: "button tiny round success", remote: true
+    %div
+      = button_to "Edit Order", edit_order_path(@order), method: :get, class: "button tiny round secondary"
+
+
+
+
 - if @order.feedback
   .row
     .large-6.small-centered.columns
