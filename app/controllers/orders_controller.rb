@@ -48,7 +48,7 @@ class OrdersController < ApplicationController
     if @order.update(params[:order].permit(:driver_id, :status))
       WebsocketRails[:orders].trigger 'assign_driver', @order 
       flash[:notice] = "Driver successfully assigned"
-      redirect_to orders_path
+      redirect_to order_path(@order)
     else
       render action: "index"
     end
@@ -60,7 +60,7 @@ class OrdersController < ApplicationController
     if @order.save
       WebsocketRails[:orders].trigger 'confirm', @order 
       respond_to do |format|
-        format.html { redirect_to orders_path }
+        format.html { redirect_to order_path(@order) }
         format.js { render :confirm }
       end
     end  
@@ -76,7 +76,7 @@ class OrdersController < ApplicationController
     if @order.save
       WebsocketRails[:orders].trigger 'change', @order
       flash[:notice] = "Order successfully updated"
-      redirect_to orders_path
+      redirect_to redirect_to order_path(@order)
     else
       render action: "edit"
     end
@@ -88,7 +88,7 @@ class OrdersController < ApplicationController
     if @order.save
       WebsocketRails[:orders].trigger 'close', @order
       respond_to do |format|
-        format.html { redirect_to orders_path }
+        format.html { redirect_to order_path(@order) }
         format.js { render :close }
       end
     end  
@@ -101,7 +101,7 @@ class OrdersController < ApplicationController
       WebsocketRails[:orders].trigger 'reject', @order
       flash[:notice] = "Order successfully rejected"
       respond_to do |format|
-        format.html { redirect_to orders_path }
+        format.html { redirect_to order_path(@order) }
         format.js { render :reject }
       end
     end
