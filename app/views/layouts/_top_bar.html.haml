@@ -11,7 +11,7 @@
     %ul.right
       - if user_signed_in?
         %li.has-dropdown
-          = link_to current_user.email
+          = link_to current_user.email, "javascript:void(0)"
           %ul.dropdown
             %li
               = link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link'
