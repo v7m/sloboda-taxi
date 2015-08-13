@@ -8,8 +8,10 @@ class OrdersController < ApplicationController
       @drivers =  User.with_role(:driver)
     elsif can? :confirm, Order 
       @orders = Order.where(driver: current_user).order(updated_at: :desc)
+      @driver = current_user
     elsif can? :create, Order 
-      @orders = Order.where(client: current_user).order(updated_at: :desc)  
+      @orders = Order.where(client: current_user).order(updated_at: :desc) 
+      @client = current_user 
     end  
     authorize! :read, Order
   end
@@ -43,6 +45,7 @@ class OrdersController < ApplicationController
 
   def assign_driver
     if @order.update(params[:order].permit(:driver_id, :status))
+      WebsocketRails[:orders].trigger 'assign_driver', @order 
       flash[:notice] = "Driver successfully assigned"
       redirect_to orders_path
     else

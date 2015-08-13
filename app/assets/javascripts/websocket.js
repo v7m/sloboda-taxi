@@ -5,18 +5,31 @@ String.prototype.capitalizeFirstLetter = function() {
 }
 channel.bind('new', function(order) {
   $("#dispatcher_table").prepend(
-    "<tr>" 
-        + "<td>" 
+    "<tr class='order_" + order.id + "'>" 
+        + "<td class='show_button'>" 
             + "<form class='button_to' method='get' action='/orders/" + order.id + "'>"
                 + "<input class='button tiny round info' type='submit' value='Show'>"
             + "</form>"
         + "</td>" 
-        + "<td>" + order.id + "</td>"  
-        + "<td>" + order.departure + "</td>"
-        + "<td>" + order.destination + "</td>"
-        + "<td>" + order.car_type.capitalizeFirstLetter() + "</td>"
-        + "<td><b>" + order.status.capitalizeFirstLetter() + "</b></td>"
+        + "<td class='order_id'>" + order.id + "</td>"  
+        + "<td class='departure'>" + order.departure + "</td>"
+        + "<td class='destination'>" + order.destination + "</td>"
+        + "<td class='car_type'>" + order.car_type.capitalizeFirstLetter() + "</td>"
+        + "<td class='status'><b>" + order.status.capitalizeFirstLetter() + "</b></td>"
     + "<tr>");
-  // debugger;
-    
-})
+});
+channel.bind('assign_driver', function(order) {
+  $("#driver_" + order.driver_id + "_table").prepend(
+    "<tr class='order_" + order.id + "'>" 
+        + "<td class='show_button'>" 
+            + "<form class='button_to' method='get' action='/orders/" + order.id + "'>"
+                + "<input class='button tiny round info' type='submit' value='Show'>"
+            + "</form>"
+        + "</td>" 
+        + "<td class='order_id'>" + order.id + "</td>"  
+        + "<td class='departure'>" + order.departure + "</td>"
+        + "<td class='destination'>" + order.destination + "</td>"
+        + "<td class='car_type'>" + order.car_type.capitalizeFirstLetter() + "</td>"
+        + "<td class='status'><b>" + order.status.capitalizeFirstLetter() + "</b></td>"
+    + "<tr>");
+});

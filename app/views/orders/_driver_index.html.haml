@@ -9,19 +9,19 @@
       %th Destination
       %th Car Type
       %th Status 
-  %tbody{ id: 'driver_table' }
+  %tbody{ id: "driver_#{@driver.id}_table" }
     - orders.each do |order|
-      %tr
-        %td 
+      %tr{ class: "order_#{order.id}" }
+        %td{ class: "show_button" } 
           = button_to "Show", order_path(order), method: :get, class: "button tiny round info"
-        %td 
+        %td.order_id  
           = order.id  
-        %td 
+        %td.departure 
           = order.departure
-        %td 
+        %td.destination 
           = order.destination
-        %td
+        %td.car_type
           = order.car_type.capitalize 
-        %td
+        %td.status
           %b
             = order.status.capitalize  
