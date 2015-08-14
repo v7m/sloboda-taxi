@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
 
+  before_create :set_default_role
+
   enum car_type: [:sedan, :minivan, :truck]  
 
   scope :with_role, -> (role) { joins(:roles).where(roles: {name: role.to_s}) }  
@@ -18,5 +20,11 @@ class User < ActiveRecord::Base
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end  
+
+  private
+
+  def set_default_role
+    self.roles << Role.find_by_name(:client)
+  end
 
 end
