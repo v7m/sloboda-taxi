@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
   belongs_to :role
 
-  before_create :set_default_role
+  after_create :set_default_role
 
   enum car_type: [:sedan, :minivan, :truck]  
 
@@ -24,7 +24,8 @@ class User < ActiveRecord::Base
   private
 
   def set_default_role
-    role = Role.find_by_name(:client) unless role
+    self.role = Role.find_by(name: "client") unless self.role 
+    self.save
   end
 
 end
