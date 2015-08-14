@@ -1,8 +1,12 @@
 %br
   - if !user_signed_in?
     %center
-      = button_to "Log In", new_user_session_path, method: :get, class: "button radius success"
-      = button_to "Sign Up", new_user_registration_path, method: :get, class: "button radius"
+      %h3 Hi! Please, Log In or Sign Up.
+      %ul{ class: "button-group round" }
+        %li
+          = link_to "Log In", new_user_session_path, class: "button success"
+        %li  
+          = link_to "Sign Up", new_user_registration_path, class: "button"
   - elsif can? :manage, :all
     %center
       %h2 Login as admin
