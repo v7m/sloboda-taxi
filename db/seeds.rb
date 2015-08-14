@@ -16,18 +16,18 @@ client1 = User.create(
   lastname: Faker::Name.last_name,
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
-  email: 'client1@example.com'
+  email: 'client1@example.com',
+  role: client_role
   )
-client1.roles << client_role
 
 client2 = User.create( 
   firstname: Faker::Name.first_name,
   lastname: Faker::Name.last_name,
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
-  email: 'client2@example.com'
+  email: 'client2@example.com',
+  role: client_role
   )
-client2.roles << client_role
 
 driver1 = User.create( 
   firstname: Faker::Name.first_name,
@@ -35,9 +35,9 @@ driver1 = User.create(
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
   email: 'driver1@example.com',
-  car_type: 1
+  car_type: 1,
+  role: driver_role
   )
-driver1.roles << driver_role
 
 driver2 = User.create( 
   firstname: Faker::Name.first_name,
@@ -45,24 +45,24 @@ driver2 = User.create(
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
   email: 'driver2@example.com',
-  car_type: 1
+  car_type: 1,
+  role: driver_role
   )
-driver2.roles << driver_role
 
 dispatcher = User.create( 
   firstname: Faker::Name.first_name,
   lastname: Faker::Name.last_name,
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
-  email: 'dispatcher@example.com'
+  email: 'dispatcher@example.com',
+  role: dispatcher_role
   )
-dispatcher.roles << dispatcher_role
 
 admin = User.create(
   password: '12345678', 
-  email: 'admin@example.com'
+  email: 'admin@example.com',
+  role: admin_role
   )
-admin.roles << admin_role
 
 order1 = Order.create(
   status: 0, 

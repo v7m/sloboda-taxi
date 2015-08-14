@@ -42,7 +42,7 @@ class OrdersController < ApplicationController
   end
 
   def edit_driver
-    @drivers =  User.joins(:roles).where(roles: {name: 'driver'})
+    @drivers =  User.with_role(:driver)
     authorize! :assign_driver, Order
   end  
 
