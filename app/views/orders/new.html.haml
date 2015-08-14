@@ -7,7 +7,7 @@
         %fieldset
           %legend Order information
 
-          = f.hidden_field :status, value: 'pending'
+          = f.hidden_field :status, value: 'opened'
 
           = render partial: 'form', locals: { f: f }
 
