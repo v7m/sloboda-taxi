@@ -1,6 +1,13 @@
 = content_for :title, "Orders"
 .row
   .large-8.small-centered.columns
+    %center
+      %h2 
+        - if can?(:assign_driver, Order)  
+          Orders
+        - else   
+          My Orders
+
     - if can? :assign_driver, Order
       = render partial: "dispatcher_index", locals: { orders: @orders}
     - elsif can? :confirm, Order
