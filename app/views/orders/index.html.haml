@@ -1,16 +1,36 @@
 = content_for :title, "Orders"
-.row
-  .large-8.small-centered.columns
-    %center
-      %h2 
-        - if can?(:assign_driver, Order)  
-          Orders
-        - else   
-          My Orders
+%center
+  %h2 
+    - if can?(:assign_driver, Order)  
+      Orders
+    - else   
+      My Orders
 
-    - if can? :assign_driver, Order
-      = render partial: "dispatcher_index", locals: { orders: @orders}
-    - elsif can? :confirm, Order
-      = render partial: "driver_index", locals: { orders: @orders}
-    - elsif can? :create, Order
-      = render partial: "client_index", locals: { orders: @orders}  
+- if can? :assign_driver, Order
+  .sort_button
+    %center
+      %button.button.radius.small.dropdown{"aria-controls" => "drop1", "aria-expanded" => "false", "data-dropdown" => "drop1", :href => "#"} Sort
+      %br
+        %ul#drop1.f-dropdown{"aria-hidden" => "true", "data-dropdown-content" => ""}
+          %li
+            = link_to "All", orders_path, data: { status: "opened" }, remote: true 
+          %li
+            = link_to "Opened", orders_path(status: "opened"), data: { status: "opened" }, remote: true 
+          %li
+            = link_to "Pending", orders_path(status: "pending"), data: { status: "pending" }, remote: true 
+          %li
+            = link_to "Rejected", orders_path(status: "rejected"), data: { status: "rejected" }, remote: true   
+          %li
+            = link_to "Edited", orders_path(status: "edited"), data: { status: "edited" }, remote: true   
+          %li
+            = link_to "Confirmed", orders_path(status: "confirmed"), data: { status: "confirmed" }, remote: true   
+          %li
+            = link_to "Closed", orders_path(status: "closed"), data: { status: "closed" },  remote: true   
+  .dispatcher_index          
+    = render partial: "dispatcher_index", locals: { orders: @orders}
+- elsif can? :confirm, Order
+  .driver_index
+    = render partial: "driver_index", locals: { orders: @orders}
+- elsif can? :create, Order
+  .client_index
+    = render partial: "client_index", locals: { orders: @orders}  

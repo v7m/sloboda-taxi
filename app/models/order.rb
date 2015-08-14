@@ -2,7 +2,10 @@ class Order < ActiveRecord::Base
   belongs_to :client, class_name: "User"
   belongs_to :driver, class_name: "User"
 
-  enum status: [:closed, :pending, :confirmed, :edited, :rejected, :opened]
+  enum status: { opened: 0, pending: 1, edited: 2, rejected: 3, confirmed: 4, closed: 5 }
   enum car_type: [:sedan, :minivan, :truck]
+
+  scope :with_status, -> (status) { Order.where("status = ?", Order.statuses[status]).order(updated_at: :desc) }
+  
 
 end

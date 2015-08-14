@@ -1,25 +1,27 @@
-%table
-  %thead
-    %tr
-      %th Info  
-      %th Order
-      %th Departure
-      %th Destination
-      %th Car Type
-      %th Status 
-  %tbody{ id: "client_#{@client.id}_table" }
-    - orders.each do |order|
-      %tr{ class: "order_#{order.id}" }
-        %td{ class: "show_button" } 
-          = button_to "Show", order_path(order), method: :get, class: "button tiny round info"
-        %td.order_id  
-          = order.id  
-        %td.departure 
-          = order.departure
-        %td.destination 
-          = order.destination
-        %td.car_type
-          = order.car_type.capitalize 
-        %td.status
-          %b
-            = order.status.capitalize  
+.row
+  .large-8.small-centered.columns
+    %table
+      %thead
+        %tr
+          %th Info  
+          %th Order
+          %th Departure
+          %th Destination
+          %th Car Type
+          %th Status 
+      %tbody{ id: "client_#{@client.id}_table" }
+        - orders.each do |order|
+          %tr{ class: "order_#{order.id}" }
+            %td{ class: "show_button" } 
+              = button_to "Show", order_path(order), method: :get, class: "button tiny round info"
+            %td.order_id  
+              = order.id  
+            %td.departure 
+              = order.departure
+            %td.destination 
+              = order.destination
+            %td.car_type
+              = order.car_type.capitalize 
+            %td.status
+              %b
+                = order.status.capitalize  

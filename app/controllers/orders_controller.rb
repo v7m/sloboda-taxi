@@ -5,7 +5,12 @@ class OrdersController < ApplicationController
 
   def index
     if can? :assign_driver, Order
-      @orders = Order.all.order(updated_at: :desc)
+      if status = params[:status]  
+        @orders = Order.with_status(status.to_sym)
+      else  
+        @orders = Order.all.order(updated_at: :desc)
+      end  
+      
       @drivers =  User.with_role(:driver)
     elsif can? :confirm, Order 
       @orders = Order.where(driver: current_user).order(updated_at: :desc)
@@ -14,6 +19,11 @@ class OrdersController < ApplicationController
       @orders = Order.where(client: current_user).order(updated_at: :desc) 
       @client = current_user 
     end  
+    respond_to do |format|
+      format.html 
+      format.js { render 'sort_index' }
+    end
+    puts params
     authorize! :read, Order
   end
   

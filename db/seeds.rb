@@ -65,7 +65,7 @@ admin = User.create(
   )
 
 order1 = Order.create(
-  status: 0, 
+  status: 1, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
@@ -75,7 +75,7 @@ order1 = Order.create(
   )
 
 order2 = Order.create(
-  status: 2, 
+  status: 1, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
@@ -85,7 +85,7 @@ order2 = Order.create(
   )
 
 order3 = Order.create(
-  status: 0, 
+  status: 1, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
@@ -95,7 +95,7 @@ order3 = Order.create(
   )
 
 order4 = Order.create(
-  status: 0, 
+  status: 1, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
@@ -115,7 +115,7 @@ order5 = Order.create(
   )
 
 order6 = Order.create(
-  status: 3, 
+  status: 1, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
