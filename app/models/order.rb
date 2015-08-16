@@ -7,5 +7,14 @@ class Order < ActiveRecord::Base
 
   scope :with_status, -> (status) { Order.where("status = ?", Order.statuses[status]).order(updated_at: :desc) }
   
+  validates :departure, presence: true,
+                       length: { in: 5..25 }
+  validates :destination, presence: true,
+                       length: { in: 5..25 }   
+  validates :datetime, presence: true
+  validates :car_type, presence: true,
+                       length: { in: 1..3 }, 
+                       numericality: { only_integer: true }
+                                                              
 
 end
