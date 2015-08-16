@@ -3,5 +3,11 @@
  *= require_self
 */
 
+// These control the background color for the table and even rows
+
+$table-even-row-bg: #FFFFFF;
+
 @import "foundation_and_overrides";
+
 /* Add imports of custom sass/scss files here */
+

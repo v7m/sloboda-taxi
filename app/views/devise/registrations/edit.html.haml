@@ -15,6 +15,18 @@
           = f.label :email
           = f.email_field :email, autofocus: true 
 
+        .field
+          = f.label 'First Name' 
+          = f.text_field :firstname 
+
+        .field
+          = f.label 'Last Name' 
+          = f.text_field :lastname  
+
+        .field
+          = f.label :phone 
+          = f.text_field :phone   
+
         - if devise_mapping.confirmable? && resource.pending_reconfirmation? 
           %div 
             Currently waiting confirmation for: 
