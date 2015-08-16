@@ -29,8 +29,20 @@
     .small-8.small-centered.columns    
       = render partial: "dispatcher_index", locals: { orders: @orders, orders_status: @orders_status }
 - elsif can? :confirm, Order
-  .driver_index
-    = render partial: "driver_index", locals: { orders: @orders}
+  .row
+    .small-2.columns
+      .sort_button
+        %ul.side-nav{ role: "navigation", title: "Link List" }   
+          %li{ role: "menuitem" }
+            = link_to "Pending", orders_path(orders_status: "pending"), data: { orders_status: "pending" }, remote: true  
+          %li{ role: "menuitem" }
+            = link_to "Edited", orders_path(orders_status: "edited"), data: { sorders_status: "edited" }, remote: true      
+          %li{ role: "menuitem" }
+            = link_to "Confirmed", orders_path(orders_status: "confirmed"), data: { orders_status: "confirmed" }, remote: true 
+          %li{ role: "menuitem" }
+            = link_to "Closed", orders_path(orders_status: "closed"), data: { orders_status: "closed" },  remote: true 
+    .small-8.small-centered.columns        
+      = render partial: "driver_index", locals: { orders: @orders}
 - elsif can? :create, Order
   .client_index
     = render partial: "client_index", locals: { orders: @orders}  

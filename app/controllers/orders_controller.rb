@@ -6,17 +6,15 @@ class OrdersController < ApplicationController
   def index
     if can? :assign_driver, Order
       params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
-      puts '======================'  
-      puts @orders_status
       if @orders_status == "all" 
         @orders = Order.all.order(updated_at: :desc)
       else  
         @orders = Order.with_status(@orders_status.to_sym)
       end  
-      
       @drivers =  User.with_role(:driver)
     elsif can? :confirm, Order 
-      @orders = Order.where(driver: current_user).order(updated_at: :desc)
+      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "pending"
+      @orders = Order.with_status(@orders_status.to_sym)
       @driver = current_user
     elsif can? :create, Order 
       @orders = Order.where(client: current_user).order(updated_at: :desc) 

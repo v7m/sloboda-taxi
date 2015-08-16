@@ -1,5 +1,5 @@
-.row
-  .small-8.small-centered.columns
+.driver_index
+  - if orders.count > 0
     %table{width: "100%"}
       %thead
         %tr
@@ -25,3 +25,6 @@
             %td.status
               %b
                 = order.status.capitalize  
+  - else
+    %h3
+      %center There are no Orders yet.                 

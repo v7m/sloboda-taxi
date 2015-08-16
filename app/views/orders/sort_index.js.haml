@@ -1,2 +1,4 @@
-$(".dispatcher_index").html("#{ escape_javascript(render partial: 'dispatcher_index', locals: { orders: @orders, orders_status: @orders_status }) }")
-	
+- if can? :assign_driver, Order
+  $(".dispatcher_index").html("#{ escape_javascript(render partial: 'dispatcher_index', locals: { orders: @orders, orders_status: @orders_status }) }")
+- elsif can? :confirm, Order 
+  $(".driver_index").html("#{ escape_javascript(render partial: 'driver_index', locals: { orders: @orders, orders_status: @orders_status }) }")
