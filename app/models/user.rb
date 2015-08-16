@@ -17,6 +17,14 @@ class User < ActiveRecord::Base
 
   scope :with_role, -> (role) { where(role: Role.find_by(name: role.to_s)) }  
 
+  validates :firstname, presence: true,
+                       length: { in: 2..15 }
+  validates :lastname, presence: true,
+                       length: { in: 2..15 }
+  validates :phone, presence: true,
+                    length: { in: 5..15 },
+                    numericality: { only_integer: true }                                          
+
   def has_role?(role_sym)
     role && role.name.underscore.to_sym == role_sym
   end  
