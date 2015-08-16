@@ -26,7 +26,7 @@
           %li{ role: "menuitem" }
             = link_to "Closed", orders_path(orders_status: "closed"), data: { orders_status: "closed" },  remote: true 
               
-    .small-8.small-centered.columns    
+    .small-8.small-centered.columns.index_table    
       = render partial: "dispatcher_index", locals: { orders: @orders, orders_status: @orders_status }
 - elsif can? :confirm, Order
   .row
@@ -43,8 +43,8 @@
             = link_to "Confirmed", orders_path(orders_status: "confirmed"), data: { orders_status: "confirmed" }, remote: true 
           %li{ role: "menuitem" }
             = link_to "Closed", orders_path(orders_status: "closed"), data: { orders_status: "closed" },  remote: true 
-    .small-8.small-centered.columns        
-      = render partial: "driver_index", locals: { orders: @orders}
+    .small-8.small-centered.columns.index_table          
+      = render partial: "driver_index", locals: { orders: @orders, orders_status: @orders_status}
 - elsif can? :create, Order
   .client_index
     = render partial: "client_index", locals: { orders: @orders}  
