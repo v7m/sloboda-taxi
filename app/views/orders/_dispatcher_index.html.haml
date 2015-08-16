@@ -1,19 +1,19 @@
-.row
-  .large-8.small-centered.columns
-    %table
+.dispatcher_index{ data: { orders_status: "#{orders_status}" } }      
+  - if orders.count > 0
+    %table{width: "100%"}
       %thead
         %tr
           %th Info  
           %th Order
           %th Departure
           %th Destination
-          %th Car Type
+          %th Car
           %th Status 
       %tbody{ id: "dispatcher_table" }
         - orders.each do |order|
           %tr{ class: "order_#{order.id}" }
-            %td{ class: "show_button" } 
-              = button_to "Show", order_path(order), method: :get, class: "button tiny round info"
+            %td.show_button 
+              = link_to "Show", order_path(order), method: :get, class: "button tiny round info show_order", role: 'button'
             %td.order_id  
               = order.id  
             %td.departure 
@@ -25,3 +25,6 @@
             %td.status
               %b
                 = order.status.capitalize  
+  - else
+    %h3
+      %center There are no Orders yet.              

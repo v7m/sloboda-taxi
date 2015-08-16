@@ -26,7 +26,7 @@
     %center
       %h2 Login as client
       = button_to "New Order", "#", method: :get, class: "button radius success", id: 'show_main_form'  
-    .large-6.small-centered.columns{ id: 'main_form' }
+    .small-6.small-centered.columns{ id: 'main_form' }
       = form_for :order, url: {action: "create", controller: "orders"} do |f|
         %fieldset
           %legend Order information

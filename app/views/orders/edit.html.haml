@@ -3,7 +3,7 @@
   %center
     Edit Order
   .row
-    .large-6.small-centered.columns
+    .small-6.small-centered.columns
       = form_for @order, url: {action: "change"}, html: { method: :put } do |f|
         %fieldset
           %legend Order information

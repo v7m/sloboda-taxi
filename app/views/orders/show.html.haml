@@ -51,7 +51,7 @@
       %div{ id: "order_#{@order.id}_assign_driver" } 
         - if !@order.driver
           .row
-            .large-6.small-centered.columns
+            .small-6.small-centered.columns
               %fieldset
                 %legend Assign Driver
                 = form_for :order, url: {action: "assign_driver"}, html: { method: :put }, remote: true do |f|
@@ -79,7 +79,7 @@
 
 - if @order.feedback
   .row
-    .large-6.small-centered.columns
+    .small-6.small-centered.columns
       %center
         %h2 Feedback
       .panel.radius
@@ -89,7 +89,7 @@
 - else
   -if @order.closed? && can?(:add_feedback, Order)
     .row
-      .large-6.small-centered.columns
+      .small-6.small-centered.columns
         = form_for @order, url: {action: "add_feedback"}, html: { method: :put } do |f|
           %fieldset
             %legend Add Feedback

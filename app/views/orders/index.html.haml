@@ -7,27 +7,27 @@
       My Orders
 
 - if can? :assign_driver, Order
-  .sort_button
-    %center
-      %button.button.radius.small.dropdown{"aria-controls" => "drop1", "aria-expanded" => "false", "data-dropdown" => "drop1", :href => "#"} Sort
-      %br
-        %ul#drop1.f-dropdown{"aria-hidden" => "true", "data-dropdown-content" => ""}
-          %li
-            = link_to "All", orders_path, data: { status: "opened" }, remote: true 
-          %li
-            = link_to "Opened", orders_path(status: "opened"), data: { status: "opened" }, remote: true 
-          %li
-            = link_to "Pending", orders_path(status: "pending"), data: { status: "pending" }, remote: true 
-          %li
-            = link_to "Rejected", orders_path(status: "rejected"), data: { status: "rejected" }, remote: true   
-          %li
-            = link_to "Edited", orders_path(status: "edited"), data: { status: "edited" }, remote: true   
-          %li
-            = link_to "Confirmed", orders_path(status: "confirmed"), data: { status: "confirmed" }, remote: true   
-          %li
-            = link_to "Closed", orders_path(status: "closed"), data: { status: "closed" },  remote: true   
-  .dispatcher_index          
-    = render partial: "dispatcher_index", locals: { orders: @orders}
+  .row
+    .small-2.columns
+      .sort_button
+        %ul.side-nav{ role: "navigation", title: "Link List" }
+          %li{ role: "menuitem" }
+            = link_to "All", orders_path(orders_status: "all"), data: { orders_status: "all" }, remote: true 
+          %li{ role: "menuitem" }
+            = link_to "Opened", orders_path(orders_status: "opened"), data: { orders_status: "opened" }, remote: true     
+          %li{ role: "menuitem" }
+            = link_to "Pending", orders_path(orders_status: "pending"), data: { orders_status: "pending" }, remote: true  
+          %li{ role: "menuitem" }
+            = link_to "Edited", orders_path(orders_status: "edited"), data: { sorders_status: "edited" }, remote: true    
+          %li{ role: "menuitem" }
+            = link_to "Rejected", orders_path(orders_status: "rejected"), data: { orders_status: "rejected" }, remote: true   
+          %li{ role: "menuitem" }
+            = link_to "Confirmed", orders_path(orders_status: "confirmed"), data: { orders_status: "confirmed" }, remote: true 
+          %li{ role: "menuitem" }
+            = link_to "Closed", orders_path(orders_status: "closed"), data: { orders_status: "closed" },  remote: true 
+              
+    .small-8.small-centered.columns    
+      = render partial: "dispatcher_index", locals: { orders: @orders, orders_status: @orders_status }
 - elsif can? :confirm, Order
   .driver_index
     = render partial: "driver_index", locals: { orders: @orders}

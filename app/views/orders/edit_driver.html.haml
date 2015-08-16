@@ -1,7 +1,7 @@
 = content_for :title, "Assign Driver"
 %br
   .row
-    .large-6.small-centered.columns
+    .small-6.small-centered.columns
       = form_for :order, url: {action: "assign_driver"}, html: { method: :put } do |f|
         = f.hidden_field :status, value: 'pending'
         = f.select(:driver_id, @drivers.map { |d| [d.firstname + ' ' + d.lastname, d.id]  })

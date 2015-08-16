@@ -1,19 +1,19 @@
 .row
-  .large-8.small-centered.columns
-    %table
+  .small-8.small-centered.columns
+    %table{width: "100%"}
       %thead
         %tr
           %th Info  
           %th Order
           %th Departure
           %th Destination
-          %th Car Type
+          %th Car
           %th Status 
       %tbody{ id: "client_#{@client.id}_table" }
         - orders.each do |order|
           %tr{ class: "order_#{order.id}" }
             %td{ class: "show_button" } 
-              = button_to "Show", order_path(order), method: :get, class: "button tiny round info"
+              = link_to "Show", order_path(order), method: :get, class: "button tiny round info show_order", role: 'button'
             %td.order_id  
               = order.id  
             %td.departure 

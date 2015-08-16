@@ -5,10 +5,13 @@ class OrdersController < ApplicationController
 
   def index
     if can? :assign_driver, Order
-      if status = params[:status]  
-        @orders = Order.with_status(status.to_sym)
-      else  
+      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
+      puts '======================'  
+      puts @orders_status
+      if @orders_status == "all" 
         @orders = Order.all.order(updated_at: :desc)
+      else  
+        @orders = Order.with_status(@orders_status.to_sym)
       end  
       
       @drivers =  User.with_role(:driver)
