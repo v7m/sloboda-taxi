@@ -32,7 +32,9 @@
   .row
     .small-2.columns
       .sort_button
-        %ul.side-nav{ role: "navigation", title: "Link List" }   
+        %ul.side-nav{ role: "navigation", title: "Link List" }  
+          %li{ role: "menuitem" }
+            = link_to "All", orders_path(orders_status: "all"), data: { orders_status: "pending" }, remote: true 
           %li{ role: "menuitem" }
             = link_to "Pending", orders_path(orders_status: "pending"), data: { orders_status: "pending" }, remote: true  
           %li{ role: "menuitem" }
