@@ -1,11 +1,15 @@
 = f.label "Departure"
 = f.text_field :departure
+= f.error :departure
 
 = f.label "Destination"
 = f.text_field :destination
+= f.error :destination
 
 = f.label "Date & Time"
 = f.date_select :datetime
+= f.error :datetime
 
 = f.label "Car Type"
 = f.select :car_type, [['Sedan', :sedan], ['Minivan', :minivan], ['Truck', :truck]], :prompt => 'Select Car Type'
+= f.error :car_type
