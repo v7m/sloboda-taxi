@@ -36,6 +36,8 @@
       - elsif can? :assign_driver, Order  
         %li  
           = link_to "Orders", orders_path
+        %li  
+          = link_to "Drivers", drivers_path  
       - elsif can? :confirm, Order  
         %li
           = link_to "My Orders", orders_path 

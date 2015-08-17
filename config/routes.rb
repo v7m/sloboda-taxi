@@ -36,7 +36,8 @@ Rails.application.routes.draw do
       put :accept_changes
     end
   end 
-  resources :users, only: [:index, :show]   
+  get 'drivers' => 'users#index', as: 'drivers'
+  get 'drivers/:id' => 'users#show', as: 'driver'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
