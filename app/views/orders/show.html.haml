@@ -55,7 +55,7 @@
       - if can? :assign_driver, Order   
         - unless @order.closed? || @order.confirmed?   
           %div{ id: "order_#{@order.id}_assign_driver" } 
-            - if !@order.driver
+            - if !@order.driver || @order.rejected?
               = form_for :order, url: {action: "assign_driver"}, html: { method: :put }, remote: true do |f|
                 %fieldset
                   %legend Assign Driver
