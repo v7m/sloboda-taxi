@@ -1,0 +1,62 @@
+= content_for :title, "Driver № #{@driver.id}"
+.row
+  .small-6.small-centered.columns
+    %br
+    %nav.breadcrumbs
+      = link_to "Drivers", session.delete(:return_to)
+      = link_to "Driver #{@driver.id}", driver_path(@driver), class: 'current'
+    %center
+      %h2
+        Driver №
+        = @driver.id
+      %table{style: "width: 100%"}
+        %tbody
+          %tr 
+            %td Status
+            %td 
+              NOT IMPL 
+          %tr 
+            %td Name 
+            %td 
+              = @driver.firstname
+              = @driver.lastname     
+          %tr 
+            %td Phone
+            %td 
+              = @driver.phone  
+          %tr 
+            %td E-mail
+            %td 
+              = @driver.email
+          %tr 
+            %td Car Type
+            %td
+              = @driver.car_type.capitalize
+          %tr 
+            %td Orders
+            %td
+              = @driver.driver_orders.count
+
+      = link_to "Orders", "#", class: "button tiny round success show_orders"    
+      #orders_table
+        %table{ style: "width: 100%" }
+          %thead
+            %tr
+              %th Info
+              %th Driver
+              %th Date & Time
+              %th Status
+
+          %tbody    
+            - @driver.driver_orders.each do |driver_order|
+              %tr
+                %td
+                  = link_to "Show", order_path(driver_order), class: "button tiny round info show_order", role: 'button'
+                %td   
+                  = driver_order.id
+                %td   
+                  = driver_order.datetime 
+                %td
+                  = driver_order.status.capitalize     
+
+      

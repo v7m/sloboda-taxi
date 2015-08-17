@@ -14,4 +14,9 @@ class UsersController < ApplicationController
     end  
   end
 
+  def show
+    session[:return_to] ||= request.referer
+    @driver = User.find(params[:id])
+  end  
+
 end

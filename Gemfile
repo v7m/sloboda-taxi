@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'jquery-turbolinks'
 gem 'foundation-datetimepicker-rails'
 gem 'simple_form'
 gem 'websocket-rails'
