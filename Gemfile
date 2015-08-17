@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'foundation-datetimepicker-rails'
 gem 'simple_form'
 gem 'websocket-rails'
 gem 'faker', '~> 1.4.3'

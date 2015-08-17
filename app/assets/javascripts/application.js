@@ -15,7 +15,7 @@
 //= require foundation
 //= require turbolinks
 //= require websocket_rails/main
+//= require foundation-datetimepicker
 //= require_tree .
 
-$(function(){ $(document).foundation(); });//= require websocket_rails/main
-
+$(function(){ $(document).foundation(); });
