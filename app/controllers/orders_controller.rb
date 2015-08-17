@@ -33,7 +33,7 @@ class OrdersController < ApplicationController
   end
   
   def show
-    @drivers =  User.with_role(:driver)
+    @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
     authorize! :read, Order
   end
 
@@ -130,7 +130,7 @@ class OrdersController < ApplicationController
   end
 
   def reject
-    @drivers =  User.with_role(:driver)
+    @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
     @order.status = 'rejected'
     if @order.save
       UserMailer.reject_order_email(@order.client, @order).deliver_now

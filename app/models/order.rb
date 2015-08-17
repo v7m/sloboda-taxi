@@ -4,9 +4,9 @@ class Order < ActiveRecord::Base
   belongs_to :driver, class_name: "User"
 
   enum status: { opened: 0, pending: 1, edited: 2, rejected: 3, confirmed: 4, closed: 5 }
-  enum car_type: [:sedan, :minivan, :truck]
+  enum car_type: { sedan: 0, minivan: 1, truck: 2 }
 
-  scope :with_status, -> (status) { Order.where("status = ?", Order.statuses[status]).order(updated_at: :desc) }
+  scope :with_status, -> (status) { where("status = ?", Order.statuses[status]).order(updated_at: :desc) }
   
   validates :departure, presence: true,
                        length: { in: 5..25 }
