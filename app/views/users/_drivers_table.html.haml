@@ -1,0 +1,26 @@
+%table{width: "100%"}
+  %thead
+    %tr
+      %th Info  
+      %th Driver
+      %th Name
+      %th Phone
+      %th Car
+      %th Status
+  %tbody
+    - drivers.each do |driver|
+      %tr
+        %td.show_button 
+          = link_to "Show", driver_path(driver), class: "button tiny round success show_order", role: 'button'
+        %td 
+          = driver.id  
+        %td
+          = driver.firstname
+          = driver.lastname
+        %td
+          = driver.phone
+        %td
+          = driver.car_type.capitalize  
+        %td
+          %b
+            NOT IMPL 
