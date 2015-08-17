@@ -15,7 +15,11 @@
   - elsif can? :assign_driver, Order
     %center
       %h2 Login as dispatcher
-      = button_to "Orders", orders_path, method: :get, class: "button radius success"  
+      %ul.button-group
+        %li
+          = link_to "Orders", orders_path, class: "button radius success"
+        %li
+          = link_to "Drivers", drivers_path, class: "button radius success"  
 
   - elsif can? :confirm, Order
     %center

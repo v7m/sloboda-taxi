@@ -1,5 +1,6 @@
-.row
-  .small-8.small-centered.columns
+.client_index{ data: { orders_status: "#{orders_status}" } }      
+  
+  - if orders.count > 0
     %table{width: "100%"}
       %thead
         %tr
@@ -24,4 +25,8 @@
               = order.car_type.capitalize 
             %td.status
               %b
-                = order.status.capitalize  
+                = order.status.capitalize 
+  - else
+    %h3
+      .panel
+        %center There are no Orders yet.                  

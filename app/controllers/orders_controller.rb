@@ -11,7 +11,7 @@ class OrdersController < ApplicationController
       else  
         @orders = Order.with_status(@orders_status.to_sym)
       end  
-      @drivers =  User.with_role(:driver)
+
     elsif can? :confirm, Order 
       params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
       if @orders_status == "all" 
@@ -20,8 +20,14 @@ class OrdersController < ApplicationController
         @orders = Order.where(driver: current_user).with_status(@orders_status.to_sym).order(updated_at: :desc)
       end 
       @driver = current_user
+
     elsif can? :create, Order 
-      @orders = Order.where(client: current_user).order(updated_at: :desc) 
+      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
+      if @orders_status == "all" 
+        @orders = Order.where(client: current_user).order(updated_at: :desc)
+      else  
+        @orders = Order.where(client: current_user).with_status(@orders_status.to_sym)
+      end 
       @client = current_user 
     end  
     respond_to do |format|

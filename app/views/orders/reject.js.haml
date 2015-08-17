@@ -1,4 +1,4 @@
 $("#order_#{@order.id}_status").html('Rejected');
 $("#order_#{@order.id}_driver").html('');
 $("#order_#{@order.id}_reject").html('');
-$("#order_#{@order.id}_assign_driver").html("#{escape_javascript( render :partial => 'assign_driver_button', :locals => {order: @order, drivers: @drivers })}");
+$("#order_#{@order.id}_assign_driver").hide().html("#{escape_javascript( render :partial => 'assign_driver_button', :locals => {order: @order, drivers: @drivers })}").show('slow');
