@@ -35,7 +35,7 @@ driver1 = User.create(
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
   email: 'driver1@example.com',
-  car_type: 1,
+  car_type: 0,
   role: driver_role
   )
 
@@ -45,7 +45,37 @@ driver2 = User.create(
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
   email: 'driver2@example.com',
+  car_type: 0,
+  role: driver_role
+  )
+
+driver3 = User.create( 
+  firstname: Faker::Name.first_name,
+  lastname: Faker::Name.last_name,
+  phone: Faker::PhoneNumber.cell_phone,
+  password: '12345678', 
+  email: 'driver3@example.com',
   car_type: 1,
+  role: driver_role
+  )
+
+driver4 = User.create( 
+  firstname: Faker::Name.first_name,
+  lastname: Faker::Name.last_name,
+  phone: Faker::PhoneNumber.cell_phone,
+  password: '12345678', 
+  email: 'driver4@example.com',
+  car_type: 1,
+  role: driver_role
+  )
+
+driver5 = User.create( 
+  firstname: Faker::Name.first_name,
+  lastname: Faker::Name.last_name,
+  phone: Faker::PhoneNumber.cell_phone,
+  password: '12345678', 
+  email: 'driver5@example.com',
+  car_type: 2,
   role: driver_role
   )
 

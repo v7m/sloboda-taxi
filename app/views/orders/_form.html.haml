@@ -7,7 +7,7 @@
 = f.error :destination
 
 = f.label "Date & Time"
-= f.text_field :datetime, class: "fdatetimepicker", value: "#{DateTime.now.strftime('%Y-%m-%d %H:%M')}", id: 'dp'  
+= f.text_field :datetime, value: "#{DateTime.now.strftime('%Y-%m-%d %H:%M')}", class: 'fdatetimepicker' 
 = f.error :datetime
 
 = f.label "Car Type"
