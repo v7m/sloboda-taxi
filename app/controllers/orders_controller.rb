@@ -33,6 +33,7 @@ class OrdersController < ApplicationController
   end
   
   def show
+    session[:return_to] ||= request.referer
     @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
     authorize! :read, Order
   end

@@ -3,7 +3,7 @@
   .small-6.small-centered.columns
     %br
     %nav.breadcrumbs
-      = link_to "Orders", orders_path
+      = link_to "Orders", session.delete(:return_to)
       = link_to "Order #{@order.id}", order_path(@order), class: 'current'
     %center
       %h2

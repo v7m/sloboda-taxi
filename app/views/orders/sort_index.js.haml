@@ -3,4 +3,4 @@
 - elsif can? :confirm, Order 
   $(".index_table").html("#{ escape_javascript(render partial: 'driver_index', locals: { orders: @orders, orders_status: @orders_status }) }")
 var obj = { Page: 'orders', Url: "?orders_status=#{@orders_status}" };
-history.pushState(obj, obj.Page, obj.Url);  
+history.pushState(obj, obj.Page, obj.Url);
