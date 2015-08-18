@@ -14,5 +14,6 @@ class Order < ActiveRecord::Base
                        length: { in: 5..25 }   
   validates :datetime, presence: true
   validates :car_type, presence: true
+  validates :feedback, length: { maximum: 100 }
 
 end

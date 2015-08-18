@@ -89,6 +89,9 @@ dispatcher = User.create(
   )
 
 admin = User.create(
+  firstname: Faker::Name.first_name,
+  lastname: Faker::Name.last_name,
+  phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
   email: 'admin@example.com',
   role: admin_role
