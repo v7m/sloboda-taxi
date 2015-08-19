@@ -17,8 +17,7 @@ client1 = User.create(
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
   email: 'client1@example.com',
-  role: client_role,
-  confirmed_at: Time.now
+  role: client_role
   )
 
 client2 = User.create( 
@@ -27,8 +26,7 @@ client2 = User.create(
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
   email: 'client2@example.com',
-  role: client_role,
-  confirmed_at: Time.now
+  role: client_role
   )
 
 driver1 = User.create( 
@@ -38,8 +36,7 @@ driver1 = User.create(
   password: '12345678', 
   email: 'driver1@example.com',
   car_type: 0,
-  role: driver_role,
-  confirmed_at: Time.now
+  role: driver_role
   )
 
 driver2 = User.create( 
@@ -49,8 +46,7 @@ driver2 = User.create(
   password: '12345678', 
   email: 'driver2@example.com',
   car_type: 0,
-  role: driver_role,
-  confirmed_at: Time.now
+  role: driver_role
   )
 
 driver3 = User.create( 
@@ -60,8 +56,7 @@ driver3 = User.create(
   password: '12345678', 
   email: 'driver3@example.com',
   car_type: 1,
-  role: driver_role,
-  confirmed_at: Time.now
+  role: driver_role
   )
 
 driver4 = User.create( 
@@ -71,8 +66,7 @@ driver4 = User.create(
   password: '12345678', 
   email: 'driver4@example.com',
   car_type: 1,
-  role: driver_role,
-  confirmed_at: Time.now
+  role: driver_role
   )
 
 driver5 = User.create( 
@@ -82,8 +76,7 @@ driver5 = User.create(
   password: '12345678', 
   email: 'driver5@example.com',
   car_type: 2,
-  role: driver_role,
-  confirmed_at: Time.now
+  role: driver_role
   )
 
 dispatcher = User.create( 
@@ -92,8 +85,7 @@ dispatcher = User.create(
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
   email: 'dispatcher@example.com',
-  role: dispatcher_role,
-  confirmed_at: Time.now
+  role: dispatcher_role
   )
 
 admin = User.create(
@@ -102,8 +94,7 @@ admin = User.create(
   phone: Faker::PhoneNumber.cell_phone,
   password: '12345678', 
   email: 'admin@example.com',
-  role: admin_role,
-  confirmed_at: Time.now
+  role: admin_role
   )
 
 order1 = Order.create(
