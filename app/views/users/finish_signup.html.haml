@@ -1,7 +1,7 @@
 #add-email
   %h2 
     %center 
-      Add Email
+      Finish Sign Up
       %p Please confirm your email address and phone!
   .row
     .small-6.small-centered.columns
@@ -12,7 +12,7 @@
               = msg 
               %br  
         %fieldset
-          %legend Add Email      
+          %legend Finish Sign Up      
           = f.label :email 
           = f.text_field :email, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'Example: email@example.com'
           = f.error :email
