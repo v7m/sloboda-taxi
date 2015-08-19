@@ -1,10 +1,10 @@
 %br
   - if !user_signed_in?
     %center
-      %h3 Hi! Please, Log In or Sign Up.
+      %h3 Hi! Please, Sign In or Sign Up.
       %ul{ class: "button-group round" }
         %li
-          = link_to "Log In", new_user_session_path, class: "button success"
+          = link_to "Sign In", new_user_session_path, class: "button success"
         %li  
           = link_to "Sign Up", new_user_registration_path, class: "button"
   - elsif can? :manage, :all

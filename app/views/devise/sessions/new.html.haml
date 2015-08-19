@@ -1,13 +1,13 @@
-= content_for :title, "Log In"
+= content_for :title, "Sign In"
 %h2 
-  %center Log In
+  %center Sign In
 
 .row
   .large-6.small-centered.columns
     = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
 
       %fieldset
-        %legend Log In
+        %legend Sign In
         
         .field
           = f.label :email

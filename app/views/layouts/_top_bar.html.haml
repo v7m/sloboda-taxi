@@ -13,9 +13,11 @@
         %li.has-dropdown
           = link_to "javascript:void(0)" do 
             - if current_user.has_identity?(:facebook)
-              = image_tag :fb_top, size: "20x20"
+              = image_tag :facebook_top, size: "20x20"
             - elsif current_user.has_identity?(:twitter) 
-              = image_tag :tw_top, size: "20x20"  
+              = image_tag :twitter_top, size: "20x20" 
+            - else
+              = image_tag :email_top, size: "20x20"   
             = "#{current_user.firstname} #{current_user.lastname}"
           %ul.dropdown
             %li
@@ -29,7 +31,7 @@
             %li
               = link_to "Sign up", new_user_registration_path, :class => 'navbar-link'
             %li
-              = link_to "Login", new_user_session_path, :class => 'navbar-link'
+              = link_to "Sign in", new_user_session_path, :class => 'navbar-link'
 
     <!-- Left Nav Section -->
     %ul.left
