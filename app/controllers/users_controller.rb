@@ -51,6 +51,7 @@ class UsersController < ApplicationController
         redirect_to root_path, notice: 'Your profile was successfully updated.'
       else
         @show_errors = true
+        render :finish_signup
       end
     end
   end

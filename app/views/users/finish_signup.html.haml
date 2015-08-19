@@ -1,6 +1,8 @@
 #add-email
   %h2 
-    %center Add Email
+    %center 
+      Add Email
+      %p Please confirm your email address and phone!
   .row
     .small-6.small-centered.columns
       = simple_form_for(current_user, :as => 'user', :url => finish_signup_path(current_user), :html => { role: 'form'}) do |f| 
@@ -13,6 +15,10 @@
           %legend Add Email      
           = f.label :email 
           = f.text_field :email, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'Example: email@example.com'
-          #p.help-block Please confirm your email address. No spam.
+          = f.error :email
+
+          = f.label :phone
+          = f.text_field :phone, :autofocus => true, :value => '', class: 'form-control input-lg', placeholder: 'Example: 937-99-92'
+          = f.error :phone
 
           = f.submit 'Continue', :class => 'btn btn-primary', class: 'button expand' 

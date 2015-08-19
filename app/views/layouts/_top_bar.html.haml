@@ -11,7 +11,12 @@
     %ul.right
       - if user_signed_in?
         %li.has-dropdown
-          = link_to current_user.email, "javascript:void(0)"
+          = link_to "javascript:void(0)" do 
+            - if current_user.has_identity?(:facebook)
+              = image_tag :fb_top, size: "20x20"
+            - elsif current_user.has_identity?(:twitter) 
+              = image_tag :tw_top, size: "20x20"  
+            = "#{current_user.firstname} #{current_user.lastname}"
           %ul.dropdown
             %li
               = link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link'
@@ -19,7 +24,7 @@
               = link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link', data: { confirm: 'Are you sure to Logout?'}
       - else   
         %li.has-dropdown
-          = link_to "User", "javascript:void(0)"
+          = link_to "Anonymous", "javascript:void(0)"
           %ul.dropdown
             %li
               = link_to "Sign up", new_user_registration_path, :class => 'navbar-link'

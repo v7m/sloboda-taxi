@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
-  TEMP_EMAIL_PREFIX = 'change@me'
-  TEMP_EMAIL_REGEX = /\Achange@me/
+  TEMP_PHONE_PREFIX = 'need_confirm'
+  TEMP_EMAIL_PREFIX = 'need@confirm'
+  TEMP_EMAIL_REGEX = /\Aneed@confirm/
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -36,6 +37,10 @@ class User < ActiveRecord::Base
     role && role.name.underscore.to_sym == role_sym
   end  
 
+  def has_identity?(identity_sym)
+    identities.find_by("provider = ?", identity_sym)
+  end
+
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
     # Get the identity and user if they exist
@@ -64,8 +69,7 @@ class User < ActiveRecord::Base
         user = User.new(
           firstname: firstname,
           lastname: lastname,
-          phone: "11111",
-          #username: auth.info.nickname || auth.uid,
+          phone: TEMP_PHONE_PREFIX,
           email: email ? email : "#{TEMP_EMAIL_PREFIX}-#{auth.uid}-#{auth.provider}.com",
           password: Devise.friendly_token[0,20]
         )

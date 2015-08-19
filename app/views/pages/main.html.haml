@@ -43,6 +43,6 @@
   - elsif !current_user.role
     %center
       %h2= "Hi, #{current_user.firstname} #{current_user.lastname}!"
-      %p Please confirm your email address!
+      %p Please confirm your email address and phone!
       = link_to "Confirm email", finish_signup_path(current_user), class: "button radius success"
               
