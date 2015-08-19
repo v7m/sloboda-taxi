@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem "figaro"
 gem 'rails_12factor', group: :production
 
 gem 'omniauth'
