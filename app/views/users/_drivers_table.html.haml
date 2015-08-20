@@ -23,4 +23,4 @@
           = driver.car_type.capitalize  
         %td
           %b
-            NOT IMPL 
+            = driver.free? ? "Free" : "Busy"
