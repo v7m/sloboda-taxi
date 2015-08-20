@@ -4,6 +4,7 @@ class OrdersController < ApplicationController
   after_action :delete_driver, only: :reject
 
   def index
+    authorize! :read, Order
     if can? :assign_driver, Order
       params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
       if @orders_status == "all" 
@@ -30,26 +31,26 @@ class OrdersController < ApplicationController
       end 
       @client = current_user 
     end  
+
     respond_to do |format|
       format.html 
       format.js { render 'sort_index' }
     end
-    puts params
-    authorize! :read, Order
   end
   
   def show
+    authorize! :read, Order
     session[:return_to] ||= request.referer
     @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
-    authorize! :read, Order
   end
 
   def new
-    @order = Order.new
     authorize! :create, Order
+    @order = Order.new
   end
 
   def create
+    authorize! :create, Order
     @order = Order.new(order_params)
     @order.client = current_user
     if @order.save
@@ -60,15 +61,15 @@ class OrdersController < ApplicationController
     else
       render action: "new"
     end
-    authorize! :create, Order
   end
 
   def edit_driver
-    @drivers =  User.with_role(:driver)
     authorize! :assign_driver, Order
+    @drivers =  User.with_role(:driver)
   end  
 
   def assign_driver
+    authorize! :assign_driver, Order
     if @order.update(params[:order].permit(:driver_id, :status))
       WebsocketRails[:orders].trigger 'assign_driver', @order 
       flash[:notice] = "Driver successfully assigned"
@@ -79,10 +80,10 @@ class OrdersController < ApplicationController
     else
       render action: "index"
     end
-    authorize! :assign_driver, Order
   end
 
   def confirm
+    authorize! :confirm, Order
     if @order.confirmed!
       WebsocketRails[:orders].trigger 'confirm', @order 
       respond_to do |format|
@@ -93,7 +94,6 @@ class OrdersController < ApplicationController
     else
       render :show  
     end  
-    authorize! :confirm, Order
   end
 
   def edit
@@ -101,6 +101,7 @@ class OrdersController < ApplicationController
   end
 
   def change
+    authorize! :change, Order
     if @order.update(order_params)
       WebsocketRails[:orders].trigger 'change', @order
       flash[:notice] = "Order successfully updated"
@@ -108,10 +109,10 @@ class OrdersController < ApplicationController
     else
       render action: "edit"
     end
-    authorize! :change, Order
   end
 
   def accept_changes
+    authorize! :accept_changes, Order
     if @order.pending!
       WebsocketRails[:orders].trigger 'accept_changes', @order
       respond_to do |format|
@@ -121,10 +122,10 @@ class OrdersController < ApplicationController
     else
       render :show  
     end  
-    authorize! :accept_changes, Order
   end
 
   def close
+    authorize! :close, Order
     if @order.closed!
       WebsocketRails[:orders].trigger 'close', @order
       respond_to do |format|
@@ -135,10 +136,10 @@ class OrdersController < ApplicationController
     else
       render :show    
     end  
-    authorize! :close, Order
   end
 
   def reject
+    authorize! :reject, Order
     @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
     if @order.rejected!
       WebsocketRails[:orders].trigger 'reject', @order
@@ -151,10 +152,10 @@ class OrdersController < ApplicationController
     else
       render :show  
     end
-    authorize! :reject, Order
   end  
 
   def add_feedback
+    authorize! :add_feedback, Order
     if @order.update(params[:order].permit(:feedback, :rating))
       flash[:notice] = "Feedback successfully rejected"
       respond_to do |format|
@@ -167,10 +168,10 @@ class OrdersController < ApplicationController
         format.js { render :feedback_errors }
       end
     end  
-    authorize! :add_feedback, Order
   end  
 
   def destroy_feedback
+    authorize! :destroy_feedback, Order
     @order.feedback = nil
     @order.rating = nil
     if @order.save
@@ -182,7 +183,6 @@ class OrdersController < ApplicationController
     else
       render action: "show"
     end  
-    authorize! :destroy_feedback, Order
   end  
 
   private
