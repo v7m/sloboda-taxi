@@ -81,7 +81,7 @@
 
 
 .feedback_area
-  - if @order.feedback
+  - if @order.rating?
     = render partial: "feedback", locals: { order: @order }     
   - else
     -if @order.closed? && can?(:add_feedback, Order)

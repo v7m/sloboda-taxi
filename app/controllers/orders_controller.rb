@@ -162,7 +162,10 @@ class OrdersController < ApplicationController
         format.js { render :add_feedback }
       end
     else
-      render action: "show"
+      respond_to do |format|
+        format.html { render action: "show" }
+        format.js { render :feedback_errors }
+      end
     end  
     authorize! :add_feedback, Order
   end  
@@ -196,5 +199,5 @@ class OrdersController < ApplicationController
     @order.driver_id = nil
     @order.save
   end  
-  
+
 end

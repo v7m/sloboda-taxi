@@ -1,12 +1,18 @@
 .row
   .small-6.small-centered.columns
     %center
-      %h2 Feedback
+      %h3 Feedback
     .panel.radius.callout
       .destroy_feedback{ style: 'position:absolute;left:90%;' }
         = link_to destroy_feedback_order_path(order), method: :put, remote: true do
           %i.fi-x
       %h5.feedback_rating
         Rating:
-        = order.rating
-      = sanitize(simple_format(order.feedback.strip))  
+        %b
+          = order.rating
+      - if order.feedback?        
+        %blockquote 
+          = sanitize(simple_format(order.feedback.strip))  
+          %cite= "#{order.client.firstname} #{order.client.lastname}"
+
+      

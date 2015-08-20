@@ -3,11 +3,13 @@
     = simple_form_for order, remote: true, url: {action: "add_feedback"}, html: { method: :put } do |f|
       %fieldset
         %legend Add Feedback
-
+        .feedback_error_message
         = f.label "Feedback"
         = f.text_area :feedback
+        = f.error :feedback
 
         = f.label "Rating"
         = f.select :rating, (1..10).to_a.reverse
+        = f.error :rating
 
         = f.submit "Add Feedback", class: 'button expand'

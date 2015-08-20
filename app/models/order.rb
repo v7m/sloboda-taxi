@@ -15,5 +15,13 @@ class Order < ActiveRecord::Base
   validates :datetime, presence: true
   validates :car_type, presence: true
   validates :feedback, length: { maximum: 100 }
+  validates :rating, numericality: { allow_blank: true }
+  validate :feedback_with_rating
+
+  def feedback_with_rating
+    if (!feedback.blank? && rating.nil?)
+      errors.add(:rating, "can't be blank")
+    end
+  end
 
 end
