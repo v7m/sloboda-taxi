@@ -2,7 +2,11 @@
   .small-6.small-centered.columns
     %center
       %h2 Feedback
-    .panel.radius
-      %h4
+    .panel.radius.callout
+      .destroy_feedback{ style: 'position:absolute;left:90%;' }
+        = link_to destroy_feedback_order_path(order), method: :put, remote: true do
+          %i.fi-x
+      %h5.feedback_rating
+        Rating:
         = order.rating
-      = sanitize(simple_format(@order.feedback.strip))  
+      = sanitize(simple_format(order.feedback.strip))  

@@ -164,6 +164,21 @@ class OrdersController < ApplicationController
     authorize! :add_feedback, Order
   end  
 
+  def destroy_feedback
+    @order.feedback = nil
+    @order.rating = nil
+    if @order.save
+      flash[:notice] = "Feedback successfully rejected"
+      respond_to do |format|
+        format.html { render action: "show" }
+        format.js { render :destroy_feedback }
+      end
+    else
+      render action: "show"
+    end  
+    authorize! :destroy_feedback, Order
+  end  
+
   private
 
   def get_order

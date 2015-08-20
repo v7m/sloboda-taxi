@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'foundation-icons-sass-rails', '~> 3.0.0'
+
 gem "figaro"
 gem 'rails_12factor', group: :production
 
