@@ -6,6 +6,7 @@
       %th Name
       %th Phone
       %th Car
+      %th Rating
       %th Status
   %tbody
     - drivers.each do |driver|
@@ -21,6 +22,8 @@
           = driver.phone
         %td
           = driver.car_type.capitalize  
+        %td
+          = driver.rating  
         %td
           %b
             = driver.free? ? "Free" : "Busy"

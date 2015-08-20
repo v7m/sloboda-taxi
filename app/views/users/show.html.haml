@@ -16,7 +16,11 @@
           %tr 
             %td Status
             %td 
-              = @driver.free? ? "Free" : "Busy" 
+              = @driver.free? ? "Free" : "Busy"
+          %tr 
+            %td Rating
+            %td 
+              = @driver.rating     
           %tr 
             %td Name 
             %td 

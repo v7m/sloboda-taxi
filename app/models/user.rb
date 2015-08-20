@@ -45,6 +45,15 @@ class User < ActiveRecord::Base
     driver_orders.count == driver_orders.with_status(:closed).count
   end  
 
+  def rating
+    rating_sum = 0.0
+    orders_with_rating = self.driver_orders.where.not(rating: nil)
+    orders_with_rating.each do |order|
+      rating_sum += order.rating.to_f
+    end 
+    orders_with_rating.count > 0 ? (rating_sum / orders_with_rating.count).round(1) : ""
+  end  
+
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
