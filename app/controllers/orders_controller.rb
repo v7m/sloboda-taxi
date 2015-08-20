@@ -154,7 +154,10 @@ class OrdersController < ApplicationController
   def add_feedback
     if @order.update(params[:order].permit(:feedback, :rating))
       flash[:notice] = "Feedback successfully rejected"
-      redirect_to order_path(@order)
+      respond_to do |format|
+        format.html { render action: "show" }
+        format.js { render :add_feedback }
+      end
     else
       render action: "show"
     end  

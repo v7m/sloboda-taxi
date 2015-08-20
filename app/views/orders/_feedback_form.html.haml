@@ -1,0 +1,13 @@
+.row
+  .small-6.small-centered.columns
+    = simple_form_for order, remote: true, url: {action: "add_feedback"}, html: { method: :put } do |f|
+      %fieldset
+        %legend Add Feedback
+
+        = f.label "Feedback"
+        = f.text_area :feedback
+
+        = f.label "Rating"
+        = f.select :rating, (1..10).to_a.reverse
+
+        = f.submit "Add Feedback", class: 'button expand'
