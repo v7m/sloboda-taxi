@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   end 
   get 'drivers' => 'users#index', as: 'drivers'
   get 'drivers/:id' => 'users#show', as: 'driver'
+  get 'clients/:id' => 'users#show', as: 'client'
 
   match '/users/:id/finish_signup' => 'users#finish_signup', via: [:get, :patch], :as => :finish_signup
 

@@ -48,9 +48,13 @@
       - elsif can? :confirm, Order  
         %li
           = link_to "My Orders", orders_path 
+        %li
+          = link_to "Profile", driver_path(current_user)   
       - elsif can? :create, Order  
+        %li
+          = link_to "New Order", new_order_path  
         %li
           = link_to "My Orders", orders_path  
         %li
-          = link_to "New Order", new_order_path      
+          = link_to "Profile", client_path(current_user)        
       
