@@ -83,14 +83,15 @@ class OrdersController < ApplicationController
   end
 
   def confirm
-    @order.status = 'confirmed'
-    if @order.save
+    if @order.confirmed!
       WebsocketRails[:orders].trigger 'confirm', @order 
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :confirm }
       end
       UserMailer.confirm_order_email(@order.client, @order).deliver_now
+    else
+      render :show  
     end  
     authorize! :confirm, Order
   end
@@ -100,8 +101,7 @@ class OrdersController < ApplicationController
   end
 
   def change
-    @order.update(order_params)
-    if @order.save
+    if @order.update(order_params)
       WebsocketRails[:orders].trigger 'change', @order
       flash[:notice] = "Order successfully updated"
       redirect_to order_path(@order)
@@ -112,34 +112,35 @@ class OrdersController < ApplicationController
   end
 
   def accept_changes
-    @order.status = 'pending'
-    if @order.save
+    if @order.pending!
       WebsocketRails[:orders].trigger 'accept_changes', @order
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :accept_changes }
       end
+    else
+      render :show  
     end  
     authorize! :accept_changes, Order
   end
 
   def close
-    @order.status = 'closed'
-    if @order.save
+    if @order.closed!
       WebsocketRails[:orders].trigger 'close', @order
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :close }
       end
       UserMailer.close_order_email(@order.client, @order).deliver_now
+    else
+      render :show    
     end  
     authorize! :close, Order
   end
 
   def reject
     @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
-    @order.status = 'rejected'
-    if @order.save
+    if @order.rejected!
       WebsocketRails[:orders].trigger 'reject', @order
       flash[:notice] = "Order successfully rejected"
       respond_to do |format|
@@ -147,6 +148,8 @@ class OrdersController < ApplicationController
         format.js { render :reject }
       end
       UserMailer.reject_order_email(@order.client, @order).deliver_now
+    else
+      render :show  
     end
     authorize! :reject, Order
   end  
@@ -193,4 +196,5 @@ class OrdersController < ApplicationController
     @order.driver_id = nil
     @order.save
   end  
+  
 end
