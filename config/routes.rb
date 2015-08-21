@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   # get 'orders/:id/show' => 'orders#show', as: 'order_show'
   # put 'orders/:id/feedback' => 'orders#add_feedback', as: 'order_add_feedback'
 
-  resources :orders, only: [:index, :new, :show] do
+  resources :orders, only: [:index, :new, :show, :create] do
     member do
       get :edit_driver 
       put :assign_driver 
@@ -33,8 +33,8 @@ Rails.application.routes.draw do
       get :edit
       put :change 
       put :reject 
-      get :show 
       put :feedback 
+      put :accept_changes
     end
   end    
 

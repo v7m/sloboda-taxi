@@ -7,7 +7,7 @@
     %tbody
       %tr 
         %td Status
-        %td 
+        %td{ id: "order_#{@order.id}_status" } 
           = @order.status.capitalize 
       %tr 
         %td Created 
@@ -20,7 +20,7 @@
           = @order.client.lastname          
       %tr 
         %td Driver
-        %td
+        %td{ id: "order_#{@order.id}_driver" }
           - if @order.driver
             = @order.driver.firstname
             = @order.driver.lastname 
@@ -44,6 +44,39 @@
         %td Car Type     
         %td
           = @order.car_type.capitalize 
+
+%center
+  - if can? :assign_driver, Order   
+    - unless @order.closed? || @order.confirmed?   
+      %div{ id: "order_#{@order.id}_assign_driver" } 
+        - if !@order.driver
+          .row
+            .large-6.small-centered.columns
+              %fieldset
+                %legend Assign Driver
+                = form_for :order, url: {action: "assign_driver"}, html: { method: :put }, remote: true do |f|
+                  = f.hidden_field :status, value: 'pending'
+                  = f.select(:driver_id, @drivers.map { |d| [d.firstname + ' ' + d.lastname, d.id]  })
+                  = f.submit "Assign Driver", class: 'button tiny round'
+      %div{ id: "order_#{@order.id}_accept_changes" } 
+        - if @order.edited? 
+          = button_to "Accept changes", accept_changes_order_path(@order), method: :put, class: "button tiny round success", remote: true     
+      %div{ id: "order_#{@order.id}_reject" } 
+        - unless @order.rejected? 
+          = button_to "Reject Order", reject_order_path(@order), method: :put, class: "button tiny round alert", remote: true  
+
+  - elsif can? :confirm, Order 
+    %div{ id: "order_#{@order.id}_add_driver" }  
+      - if @order.pending?
+        = button_to "Confirm Order", confirm_order_path(@order), method: :put, class: "button tiny round alert", remote: true
+      - if @order.confirmed?  
+        = button_to "Close Order", close_order_path(@order), method: :put, class: "button tiny round success", remote: true
+    %div
+      = button_to "Edit Order", edit_order_path(@order), method: :get, class: "button tiny round secondary"
+
+
+
+
 - if @order.feedback
   .row
     .large-6.small-centered.columns

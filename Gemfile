@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'websocket-rails'
 gem 'faker', '~> 1.4.3'
 gem 'rails_admin', '~> 0.6.8'
 # Abilities for users
@@ -40,6 +41,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+
+	gem 'mailcatcher', '~> 0.6.1'	
   #HAML
   gem 'haml-rails', '>= 0.3.4'  
 

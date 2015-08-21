@@ -1,0 +1,4 @@
+$("#order_#{@order.id}_assign_driver").html('');
+$("#order_#{@order.id}_status").html('Pending');
+$("#order_#{@order.id}_driver").html('#{@order.driver.firstname} #{@order.driver.lastname}');
+$("#order_#{@order.id}_reject").html("#{escape_javascript( render :partial => 'reject_button', :locals => {order: @order})}");
