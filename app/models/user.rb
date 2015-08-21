@@ -41,6 +41,11 @@ class User < ActiveRecord::Base
     identities.find_by("provider = ?", identity_sym)
   end
 
+  def free?
+    driver_orders.count == driver_orders.with_status(:closed).count
+  end  
+
+
   def self.find_for_oauth(auth, signed_in_resource = nil)
 
     # Get the identity and user if they exist

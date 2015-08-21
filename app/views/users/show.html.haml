@@ -16,7 +16,7 @@
           %tr 
             %td Status
             %td 
-              NOT IMPL 
+              = @driver.free? ? "Free" : "Busy" 
           %tr 
             %td Name 
             %td 

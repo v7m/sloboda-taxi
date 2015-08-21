@@ -30,8 +30,7 @@
             %td Driver
             %td{ id: "order_#{@order.id}_driver" }
               - if @order.driver
-                = @order.driver.firstname
-                = @order.driver.lastname 
+                = link_to "#{@order.driver.firstname} #{@order.driver.lastname}", driver_path(@order.driver)
           %tr 
             %td Departure
             %td    
