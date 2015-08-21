@@ -1,9 +1,13 @@
 %br
   - if !user_signed_in?
     %center
-      = button_to "Log In", new_user_session_path, method: :get, class: "button radius success"
-      = button_to "Sign Up", new_user_registration_path, method: :get, class: "button radius"
-  - elsif can? :menege, :all
+      %h3 Hi! Please, Log In or Sign Up.
+      %ul{ class: "button-group round" }
+        %li
+          = link_to "Log In", new_user_session_path, class: "button success"
+        %li  
+          = link_to "Sign Up", new_user_registration_path, class: "button"
+  - elsif can? :manage, :all
     %center
       %h2 Login as admin
       = button_to "Administration", rails_admin_path, method: :get, class: "button radius success"
@@ -11,7 +15,11 @@
   - elsif can? :assign_driver, Order
     %center
       %h2 Login as dispatcher
-      = button_to "Orders", orders_path, method: :get, class: "button radius success"  
+      %ul.button-group
+        %li
+          = link_to "Orders", orders_path, class: "button radius success"
+        %li
+          = link_to "Drivers", drivers_path, class: "button radius success"  
 
   - elsif can? :confirm, Order
     %center
@@ -22,12 +30,12 @@
     %center
       %h2 Login as client
       = button_to "New Order", "#", method: :get, class: "button radius success", id: 'show_main_form'  
-    .large-6.small-centered.columns{ id: 'main_form' }
-      = form_for :order, url: {action: "create", controller: "orders"} do |f|
+    .small-6.small-centered.columns{ id: 'main_form' }
+      = simple_form_for :order, url: {action: "create", controller: "orders"} do |f|
         %fieldset
           %legend Order information
 
-          = f.hidden_field :status, value: 'pending'
+          = f.hidden_field :status, value: 'opened'
 
           = render partial: 'orders/form', locals: { f: f }
 

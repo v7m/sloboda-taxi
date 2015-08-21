@@ -1,18 +1,23 @@
 = content_for :title, "Log In"
 %h2 
   %center Log In
+
 .row
   .large-6.small-centered.columns
-    = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+    = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+
       %fieldset
         %legend Log In
+        
         .field
           = f.label :email
           = f.email_field :email, autofocus: true
+          = f.error :email
 
         .field
           = f.label :password
           = f.password_field :password, autocomplete: "off"
+          = f.error :password
 
         - if devise_mapping.rememberable?
           .field

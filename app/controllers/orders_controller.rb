@@ -5,20 +5,42 @@ class OrdersController < ApplicationController
 
   def index
     if can? :assign_driver, Order
-      @orders = Order.all.order(updated_at: :desc)
-      @drivers =  User.with_role(:driver)
+      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
+      if @orders_status == "all" 
+        @orders = Order.all.order(updated_at: :desc)
+      else  
+        @orders = Order.with_status(@orders_status.to_sym)
+      end  
+
     elsif can? :confirm, Order 
-      @orders = Order.where(driver: current_user).order(updated_at: :desc)
+      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
+      if @orders_status == "all" 
+        @orders = Order.where(driver: current_user).order(updated_at: :desc)
+      else  
+        @orders = Order.where(driver: current_user).with_status(@orders_status.to_sym).order(updated_at: :desc)
+      end 
       @driver = current_user
+
     elsif can? :create, Order 
-      @orders = Order.where(client: current_user).order(updated_at: :desc) 
+      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
+      if @orders_status == "all" 
+        @orders = Order.where(client: current_user).order(updated_at: :desc)
+      else  
+        @orders = Order.where(client: current_user).with_status(@orders_status.to_sym)
+      end 
       @client = current_user 
     end  
+    respond_to do |format|
+      format.html 
+      format.js { render 'sort_index' }
+    end
+    puts params
     authorize! :read, Order
   end
   
   def show
-    @drivers =  User.with_role(:driver)
+    session[:return_to] ||= request.referer
+    @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
     authorize! :read, Order
   end
 
@@ -42,7 +64,7 @@ class OrdersController < ApplicationController
   end
 
   def edit_driver
-    @drivers =  User.joins(:roles).where(roles: {name: 'driver'})
+    @drivers =  User.with_role(:driver)
     authorize! :assign_driver, Order
   end  
 
@@ -115,7 +137,7 @@ class OrdersController < ApplicationController
   end
 
   def reject
-    @drivers =  User.with_role(:driver)
+    @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
     @order.status = 'rejected'
     if @order.save
       UserMailer.reject_order_email(@order.client, @order).deliver_now

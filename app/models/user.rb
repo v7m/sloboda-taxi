@@ -9,14 +9,31 @@ class User < ActiveRecord::Base
   has_many :driver_orders, foreign_key: 'driver_id', class_name: "Order"
   has_many :clients, through: :driver_order, source: :driver      
 
-  has_and_belongs_to_many :roles
+  belongs_to :role
 
-  enum car_type: [:sedan, :minivan, :truck]  
+  after_create :set_default_role
 
-  scope :with_role, -> (role) { joins(:roles).where(roles: {name: role.to_s}) }  
+  enum car_type: { sedan: 0, minivan: 1, truck: 2 }
+
+  scope :with_role, -> (role) { where(role: Role.find_by(name: role.to_s)) }  
+  scope :with_car_type, -> (car_type) { where("car_type = ?", Order.car_types[car_type]) }
+
+  validates :firstname, presence: true,
+                       length: { in: 2..15 }
+  validates :lastname, presence: true,
+                       length: { in: 2..15 }
+  validates :phone, presence: true,
+                    length: { in: 5..15 }                                          
 
   def has_role?(role_sym)
-    roles.any? { |r| r.name.underscore.to_sym == role_sym }
+    role && role.name.underscore.to_sym == role_sym
   end  
+
+  private
+
+  def set_default_role
+    self.role = Role.find_by(name: "client") unless self.role 
+    self.save
+  end
 
 end

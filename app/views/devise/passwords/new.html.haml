@@ -1,0 +1,21 @@
+= content_for :title, "Forgot password"
+%h2 
+  %center Forgot your password?
+.row
+  .large-6.small-centered.columns
+
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| 
+
+      = devise_error_messages! 
+
+      %fieldset
+        %legend Forgot your password? 
+
+        .field
+          = f.label :email 
+          = f.email_field :email, autofocus: true 
+
+        .actions
+          = f.submit "Send me reset password instructions", class: 'button expand'  
+
+    = render "devise/shared/links" 

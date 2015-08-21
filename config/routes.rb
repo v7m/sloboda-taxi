@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -24,19 +24,20 @@ Rails.application.routes.draw do
   # get 'orders/:id/show' => 'orders#show', as: 'order_show'
   # put 'orders/:id/feedback' => 'orders#add_feedback', as: 'order_add_feedback'
 
-  resources :orders, only: [:index, :new, :show, :create] do
+  resources :orders, except: [:update, :destroy] do
     member do
       get :edit_driver 
       put :assign_driver 
       put :confirm 
       put :close 
-      get :edit
       put :change 
       put :reject 
-      put :feedback 
+      put :add_feedback 
       put :accept_changes
     end
-  end    
+  end 
+  get 'drivers' => 'users#index', as: 'drivers'
+  get 'drivers/:id' => 'users#show', as: 'driver'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

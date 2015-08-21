@@ -1,9 +1,62 @@
 = content_for :title, "Orders"
-.row
-  .large-8.small-centered.columns
-    - if can? :assign_driver, Order
-      = render partial: "dispatcher_index", locals: { orders: @orders}
-    - elsif can? :confirm, Order
-      = render partial: "driver_index", locals: { orders: @orders}
-    - elsif can? :create, Order
-      = render partial: "client_index", locals: { orders: @orders}  
+%center
+  %h2 
+    - if can?(:assign_driver, Order)  
+      Orders
+    - else   
+      My Orders
+
+- if can? :assign_driver, Order
+  .row
+    .small-2.columns
+      .sort_button
+        %ul.side-nav{ role: "navigation", title: "Link List" }
+          %li{ role: "menuitem" }
+            = link_to "All", orders_path(orders_status: "all"), data: { orders_status: "all" }, remote: true 
+          %li{ role: "menuitem" }
+            = link_to "Opened", orders_path(orders_status: "opened"), data: { orders_status: "opened" }, remote: true     
+          %li{ role: "menuitem" }
+            = link_to "Pending", orders_path(orders_status: "pending"), data: { orders_status: "pending" }, remote: true  
+          %li{ role: "menuitem" }
+            = link_to "Edited", orders_path(orders_status: "edited"), data: { sorders_status: "edited" }, remote: true    
+          %li{ role: "menuitem" }
+            = link_to "Rejected", orders_path(orders_status: "rejected"), data: { orders_status: "rejected" }, remote: true   
+          %li{ role: "menuitem" }
+            = link_to "Confirmed", orders_path(orders_status: "confirmed"), data: { orders_status: "confirmed" }, remote: true 
+          %li{ role: "menuitem" }
+            = link_to "Closed", orders_path(orders_status: "closed"), data: { orders_status: "closed" },  remote: true 
+              
+    .small-8.small-centered.columns.index_table    
+      = render partial: "dispatcher_index", locals: { orders: @orders, orders_status: @orders_status }
+- elsif can? :confirm, Order
+  .row
+    .small-2.columns
+      .sort_button
+        %ul.side-nav{ role: "navigation", title: "Link List" }  
+          %li{ role: "menuitem" }
+            = link_to "All", orders_path(orders_status: "all"), data: { orders_status: "pending" }, remote: true 
+          %li{ role: "menuitem" }
+            = link_to "Pending", orders_path(orders_status: "pending"), data: { orders_status: "pending" }, remote: true  
+          %li{ role: "menuitem" }
+            = link_to "Edited", orders_path(orders_status: "edited"), data: { sorders_status: "edited" }, remote: true      
+          %li{ role: "menuitem" }
+            = link_to "Confirmed", orders_path(orders_status: "confirmed"), data: { orders_status: "confirmed" }, remote: true 
+          %li{ role: "menuitem" }
+            = link_to "Closed", orders_path(orders_status: "closed"), data: { orders_status: "closed" },  remote: true 
+    .small-8.small-centered.columns.index_table          
+      = render partial: "driver_index", locals: { orders: @orders, orders_status: @orders_status}
+- elsif can? :create, Order
+  .row
+    .small-2.columns
+      .sort_button
+        %ul.side-nav{ role: "navigation", title: "Link List" }  
+          %li{ role: "menuitem" }
+            = link_to "All", orders_path(orders_status: "all"), data: { orders_status: "pending" }, remote: true 
+          %li{ role: "menuitem" }
+            = link_to "Pending", orders_path(orders_status: "pending"), data: { orders_status: "pending" }, remote: true  
+          %li{ role: "menuitem" }
+            = link_to "Confirmed", orders_path(orders_status: "confirmed"), data: { orders_status: "confirmed" }, remote: true 
+          %li{ role: "menuitem" }
+            = link_to "Closed", orders_path(orders_status: "closed"), data: { orders_status: "closed" },  remote: true 
+    .small-8.small-centered.columns.index_table 
+      = render partial: "client_index", locals: { orders: @orders, orders_status: @orders_status }  

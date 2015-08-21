@@ -1,0 +1,20 @@
+= content_for :title, "Drivers"
+%center
+  %h2 Drivers
+
+.row
+  .small-2.columns
+    .sort_button
+      %ul.side-nav{ role: "navigation", title: "Link List" }
+        %li{ role: "menuitem" }
+          = link_to "All", drivers_path(car_type: "all"), data: { orders_status: "all" }, remote: true 
+        %li{ role: "menuitem" }  
+          = link_to "Sedan", drivers_path(car_type: "sedan"), data: { orders_status: "all" }, remote: true
+        %li{ role: "menuitem" }   
+          = link_to "Minivan", drivers_path(car_type: "minivan"), data: { orders_status: "all" }, remote: true 
+        %li{ role: "menuitem" }  
+          = link_to "Truck", drivers_path(car_type: "truck"), data: { orders_status: "all" }, remote: true 
+        
+  .small-8.small-centered.columns.index_table 
+    = render partial: "drivers_table", locals: { drivers: @drivers, car_type: @car_type }   
+    

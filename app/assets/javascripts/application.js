@@ -11,11 +11,15 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require foundation
 //= require turbolinks
 //= require websocket_rails/main
+//= require foundation-datetimepicker
 //= require_tree .
+//= require turbolinks
 
-$(function(){ $(document).foundation(); });//= require websocket_rails/main
-
+$(document).on('ready page:load', function () {
+	$(function(){ $(document).foundation(); });
+});

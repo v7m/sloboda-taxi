@@ -4,27 +4,40 @@
 
 .row
   .large-6.small-centered.columns
-    = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+
       %fieldset
         %legend Sign Up
-        = devise_error_messages!
 
         .field
           = f.label :email 
           = f.email_field :email, autofocus: true 
+          = f.error :email
+
+        .field
+          = f.label 'First Name' 
+          = f.text_field :firstname 
+          = f.error :firstname
+
+        .field
+          = f.label 'Last Name' 
+          = f.text_field :lastname 
+          = f.error :lastname 
+
+        .field
+          = f.label "Phone" 
+          = f.text_field :phone  
+          = f.error :phone 
 
         .field
           = f.label :password 
-          - if @minimum_password_length
-            %em
-              (
-              = @minimum_password_length  
-              characters minimum)
           = f.password_field :password, autocomplete: "off" 
+          = f.error :password
 
         .field
           = f.label :password_confirmation
           = f.password_field :password_confirmation, autocomplete: "off"
+          = f.error :password_confirmation
 
         .actions
           = f.submit "Sign up", class: 'button expand' 

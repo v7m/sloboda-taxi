@@ -1,0 +1,3 @@
+$(".index_table").html("#{ escape_javascript(render partial: 'drivers_table', locals: { drivers: @drivers, car_type: @car_type }) }");
+var obj = { Page: 'drivers', Url: "?car_type=#{@car_type}" };
+history.pushState(obj, obj.Page, obj.Url);
