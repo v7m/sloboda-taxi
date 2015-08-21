@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       put :change 
       put :reject 
       put :add_feedback 
+      put :destroy_feedback
       put :accept_changes
     end
   end 

@@ -80,29 +80,9 @@
           = button_to "Edit Order", edit_order_path(@order), method: :get, class: "button tiny round secondary"
 
 
-
-
-- if @order.feedback
-  .row
-    .small-6.small-centered.columns
-      %center
-        %h2 Feedback
-      .panel.radius
-        %h4
-          =@order.rating
-        = sanitize(simple_format(@order.feedback.strip))       
-- else
-  -if @order.closed? && can?(:add_feedback, Order)
-    .row
-      .small-6.small-centered.columns
-        = form_for @order, url: {action: "add_feedback"}, html: { method: :put } do |f|
-          %fieldset
-            %legend Add Feedback
-
-            = f.label "Feedback"
-            = f.text_area :feedback
-
-            = f.label "Rating"
-            = f.select :rating, (1..10).to_a.reverse
-
-            = f.submit "Add Feedback", class: 'button expand'        
+.feedback_area
+  - if @order.rating?
+    = render partial: "feedback", locals: { order: @order }     
+  - else
+    -if @order.closed? && can?(:add_feedback, Order)
+      = render partial: "feedback_form", locals: { order: @order }   

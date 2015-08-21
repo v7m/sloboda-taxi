@@ -1,0 +1,6 @@
+:plain
+  $(".feedback_area").fadeOut(300, function(){
+  	$(".feedback_area").html("");
+    $(".feedback_area").html("#{escape_javascript( render partial: 'feedback', :locals => { order: @order })}");
+    $(".feedback_area").fadeIn(300);
+  });  

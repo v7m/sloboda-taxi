@@ -4,6 +4,7 @@ class OrdersController < ApplicationController
   after_action :delete_driver, only: :reject
 
   def index
+    authorize! :read, Order
     if can? :assign_driver, Order
       params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
       if @orders_status == "all" 
@@ -30,26 +31,26 @@ class OrdersController < ApplicationController
       end 
       @client = current_user 
     end  
+
     respond_to do |format|
       format.html 
       format.js { render 'sort_index' }
     end
-    puts params
-    authorize! :read, Order
   end
   
   def show
+    authorize! :read, Order
     session[:return_to] ||= request.referer
     @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
-    authorize! :read, Order
   end
 
   def new
-    @order = Order.new
     authorize! :create, Order
+    @order = Order.new
   end
 
   def create
+    authorize! :create, Order
     @order = Order.new(order_params)
     @order.client = current_user
     if @order.save
@@ -60,15 +61,15 @@ class OrdersController < ApplicationController
     else
       render action: "new"
     end
-    authorize! :create, Order
   end
 
   def edit_driver
-    @drivers =  User.with_role(:driver)
     authorize! :assign_driver, Order
+    @drivers =  User.with_role(:driver)
   end  
 
   def assign_driver
+    authorize! :assign_driver, Order
     if @order.update(params[:order].permit(:driver_id, :status))
       WebsocketRails[:orders].trigger 'assign_driver', @order 
       flash[:notice] = "Driver successfully assigned"
@@ -79,20 +80,20 @@ class OrdersController < ApplicationController
     else
       render action: "index"
     end
-    authorize! :assign_driver, Order
   end
 
   def confirm
-    @order.status = 'confirmed'
-    if @order.save
+    authorize! :confirm, Order
+    if @order.confirmed!
       WebsocketRails[:orders].trigger 'confirm', @order 
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :confirm }
       end
       UserMailer.confirm_order_email(@order.client, @order).deliver_now
+    else
+      render :show  
     end  
-    authorize! :confirm, Order
   end
 
   def edit
@@ -100,46 +101,47 @@ class OrdersController < ApplicationController
   end
 
   def change
-    @order.update(order_params)
-    if @order.save
+    authorize! :change, Order
+    if @order.update(order_params)
       WebsocketRails[:orders].trigger 'change', @order
       flash[:notice] = "Order successfully updated"
       redirect_to order_path(@order)
     else
       render action: "edit"
     end
-    authorize! :change, Order
   end
 
   def accept_changes
-    @order.status = 'pending'
-    if @order.save
+    authorize! :accept_changes, Order
+    if @order.pending!
       WebsocketRails[:orders].trigger 'accept_changes', @order
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :accept_changes }
       end
+    else
+      render :show  
     end  
-    authorize! :accept_changes, Order
   end
 
   def close
-    @order.status = 'closed'
-    if @order.save
+    authorize! :close, Order
+    if @order.closed!
       WebsocketRails[:orders].trigger 'close', @order
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :close }
       end
       UserMailer.close_order_email(@order.client, @order).deliver_now
+    else
+      render :show    
     end  
-    authorize! :close, Order
   end
 
   def reject
+    authorize! :reject, Order
     @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
-    @order.status = 'rejected'
-    if @order.save
+    if @order.rejected!
       WebsocketRails[:orders].trigger 'reject', @order
       flash[:notice] = "Order successfully rejected"
       respond_to do |format|
@@ -147,18 +149,40 @@ class OrdersController < ApplicationController
         format.js { render :reject }
       end
       UserMailer.reject_order_email(@order.client, @order).deliver_now
+    else
+      render :show  
     end
-    authorize! :reject, Order
   end  
 
   def add_feedback
+    authorize! :add_feedback, Order
     if @order.update(params[:order].permit(:feedback, :rating))
       flash[:notice] = "Feedback successfully rejected"
-      redirect_to order_path(@order)
+      respond_to do |format|
+        format.html { render action: "show" }
+        format.js { render :add_feedback }
+      end
+    else
+      respond_to do |format|
+        format.html { render action: "show" }
+        format.js { render :feedback_errors }
+      end
+    end  
+  end  
+
+  def destroy_feedback
+    authorize! :destroy_feedback, Order
+    @order.feedback = nil
+    @order.rating = nil
+    if @order.save
+      flash[:notice] = "Feedback successfully rejected"
+      respond_to do |format|
+        format.html { render action: "show" }
+        format.js { render :destroy_feedback }
+      end
     else
       render action: "show"
     end  
-    authorize! :add_feedback, Order
   end  
 
   private
@@ -175,4 +199,5 @@ class OrdersController < ApplicationController
     @order.driver_id = nil
     @order.save
   end  
+
 end

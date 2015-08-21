@@ -21,6 +21,7 @@ class Ability
       can :read, Order
       can :create, Order
       can :add_feedback, Order
+      can :destroy_feedback, Order
     end 
     # Define abilities for the passed in user here. For example:
     #
