@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'jquery-ui-rails'
 gem 'foundation-icons-sass-rails', '~> 3.0.0'
 
 gem "figaro"
