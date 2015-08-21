@@ -16,6 +16,8 @@
               = image_tag :facebook_top, size: "20x20"
             - elsif current_user.has_identity?(:twitter) 
               = image_tag :twitter_top, size: "20x20" 
+            - elsif current_user.has_identity?(:vkontakte) 
+              = image_tag :vkontakte_top, size: "20x20"  
             - else
               = image_tag :email_top, size: "20x20"   
             = "#{current_user.firstname} #{current_user.lastname}"

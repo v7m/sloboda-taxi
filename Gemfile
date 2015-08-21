@@ -5,9 +5,11 @@ gem 'foundation-icons-sass-rails', '~> 3.0.0'
 gem "figaro"
 gem 'rails_12factor', group: :production
 
+#Auth
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'omniauth-facebook'
+gem 'omniauth-vkontakte'
 
 gem 'jquery-turbolinks'
 gem 'foundation-datetimepicker-rails'

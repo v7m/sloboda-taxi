@@ -25,9 +25,9 @@ class User < ActiveRecord::Base
   scope :with_car_type, -> (car_type) { where("car_type = ?", Order.car_types[car_type]) }
 
   validates :firstname, presence: true,
-                       length: { in: 2..15 }
+                       length: { in: 1..15 }
   validates :lastname, presence: true,
-                       length: { in: 2..15 }
+                       length: { in: 1..15 }
   validates :phone, presence: true,
                     length: { in: 5..15 }   
 
@@ -78,8 +78,8 @@ class User < ActiveRecord::Base
 
       # Create the user if it's a new registration
       if user.nil?
-        firstname = auth.extra.raw_info.name.split(" ").first
-        lastname = auth.extra.raw_info.name.split(" ").last
+        firstname = auth.info.name.split(" ").first
+        lastname = auth.info.name.split(" ").last
         user = User.new(
           firstname: firstname,
           lastname: lastname,
