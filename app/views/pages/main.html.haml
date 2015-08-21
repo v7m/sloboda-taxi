@@ -1,35 +1,50 @@
 %br
   - if !user_signed_in?
     %center
-      %h3 Hi! Please, Log In or Sign Up.
+      %h3 Hi! Please, Sign In or Sign Up.
       %ul{ class: "button-group round" }
         %li
-          = link_to "Log In", new_user_session_path, class: "button success"
+          = link_to "Sign In", new_user_session_path, class: "button success"
         %li  
           = link_to "Sign Up", new_user_registration_path, class: "button"
   - elsif can? :manage, :all
     %center
       %h2 Login as admin
-      = button_to "Administration", rails_admin_path, method: :get, class: "button radius success"
+      = link_to "Administration", rails_admin_path, class: "button radius success"
 
   - elsif can? :assign_driver, Order
     %center
-      %h2 Login as dispatcher
+      %h2
+        = "Hi, #{current_user.firstname} #{current_user.lastname}!"
+      %p  
+        = "Your status: #{current_user.role.name}"
+
       %ul.button-group
         %li
-          = link_to "Orders", orders_path, class: "button radius success"
+          = link_to "Orders", orders_path, class: "button radius"
         %li
           = link_to "Drivers", drivers_path, class: "button radius success"  
 
   - elsif can? :confirm, Order
     %center
-      %h2 Login as driver
-      = button_to "My Orders", orders_path, method: :get, class: "button radius success"
+      %h2
+        = "Hi, #{current_user.firstname} #{current_user.lastname}!"
+      %p  
+        = "Your status: #{current_user.role.name}"
+      = link_to "My Orders", orders_path, class: "button radius success"
 
   - elsif can? :create, Order
     %center
-      %h2 Login as client
-      = button_to "New Order", "#", method: :get, class: "button radius success", id: 'show_main_form'  
+      %h2
+        = "Hi, #{current_user.firstname} #{current_user.lastname}!"
+      %p  
+        = "Your status: #{current_user.role.name}"
+      %ul.button-group
+        %li
+          = link_to "My Orders", orders_path, class: "button radius"
+        %li
+          = link_to "New Order", "#", class: "button radius success", id: 'show_main_form'  
+          
     .small-6.small-centered.columns{ id: 'main_form' }
       = simple_form_for :order, url: {action: "create", controller: "orders"} do |f|
         %fieldset
@@ -40,3 +55,9 @@
           = render partial: 'orders/form', locals: { f: f }
 
           = f.submit "Create Order", class: 'button expand' 
+  - elsif !current_user.role
+    %center
+      %h2= "Hi, #{current_user.firstname} #{current_user.lastname}!"
+      %p Please finish Sign Up to start use service!
+      = link_to "Finish Sign Up", finish_signup_path(current_user), class: "button radius success"
+              

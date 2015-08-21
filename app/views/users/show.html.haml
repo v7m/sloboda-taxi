@@ -2,8 +2,10 @@
 .row
   .small-6.small-centered.columns
     %br
+    = link_to "Previous Page", session.delete(:return_to)
+    %br
     %nav.breadcrumbs
-      = link_to "Drivers", session.delete(:return_to)
+      = link_to "Drivers", drivers_path
       = link_to "Driver #{@driver.id}", driver_path(@driver), class: 'current'
     %center
       %h2

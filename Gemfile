@@ -1,5 +1,12 @@
 source 'https://rubygems.org'
 
+gem "figaro"
+gem 'rails_12factor', group: :production
+
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'omniauth-facebook'
+
 gem 'jquery-turbolinks'
 gem 'foundation-datetimepicker-rails'
 gem 'simple_form'

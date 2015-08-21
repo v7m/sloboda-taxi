@@ -53,10 +53,10 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.client = current_user
     if @order.save
-      UserMailer.create_order_email(@order.client, @order).deliver_now
       WebsocketRails[:orders].trigger 'new', @order  
       flash[:notice] = "Order successfully created"
       redirect_to order_path(@order)
+      UserMailer.create_order_email(@order.client, @order).deliver_now
     else
       render action: "new"
     end
@@ -85,12 +85,12 @@ class OrdersController < ApplicationController
   def confirm
     @order.status = 'confirmed'
     if @order.save
-      UserMailer.confirm_order_email(@order.client, @order).deliver_now
       WebsocketRails[:orders].trigger 'confirm', @order 
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :confirm }
       end
+      UserMailer.confirm_order_email(@order.client, @order).deliver_now
     end  
     authorize! :confirm, Order
   end
@@ -126,12 +126,12 @@ class OrdersController < ApplicationController
   def close
     @order.status = 'closed'
     if @order.save
-      UserMailer.close_order_email(@order.client, @order).deliver_now
       WebsocketRails[:orders].trigger 'close', @order
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :close }
       end
+      UserMailer.close_order_email(@order.client, @order).deliver_now
     end  
     authorize! :close, Order
   end
@@ -140,13 +140,13 @@ class OrdersController < ApplicationController
     @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
     @order.status = 'rejected'
     if @order.save
-      UserMailer.reject_order_email(@order.client, @order).deliver_now
       WebsocketRails[:orders].trigger 'reject', @order
       flash[:notice] = "Order successfully rejected"
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :reject }
       end
+      UserMailer.reject_order_email(@order.client, @order).deliver_now
     end
     authorize! :reject, Order
   end  
