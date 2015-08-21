@@ -1,10 +1,12 @@
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
 Devise.setup do |config|
+
+  config.secret_key = ENV["DEVISE_SECRET"]
   # Omniauth
-  config.omniauth :facebook, ENV["FACEBOOK_KEY"], ENV["FACEBOOK_PASSWORD"]
-  config.omniauth :twitter, ENV["TWITTER_KEY"], ENV["TWITTER_PASSWORD"]
-  config.omniauth :vkontakte, ENV["VKONTAKTE_KEY"], ENV["VKONTAKTE_PASSWORD"]
+  config.omniauth :facebook, ENV["FACEBOOK_KEY"], ENV["FACEBOOK_SECRET"]
+  config.omniauth :twitter, ENV["TWITTER_KEY"], ENV["TWITTER_SECRET"]
+  config.omniauth :vkontakte, ENV["VKONTAKTE_KEY"], ENV["VKONTAKTE_SECRET"]
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
