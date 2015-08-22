@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'unicorn'
+
 gem 'jquery-ui-rails'
 gem 'foundation-icons-sass-rails', '~> 3.0.0'
 
@@ -56,8 +58,14 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
+  
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano3-unicorn'
+  gem 'capistrano', '~> 3.4.0'
+  gem 'rvm1-capistrano3', require: false
 
-	gem 'mailcatcher', '~> 0.6.1'	
+  gem 'mailcatcher', '~> 0.6.1' 
   #HAML
   gem 'haml-rails', '>= 0.3.4'  
 
