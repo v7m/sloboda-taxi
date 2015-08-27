@@ -39,7 +39,7 @@ class OrdersController < ApplicationController
       WebsocketRails[:orders].trigger 'new', @order  
       flash[:notice] = "Order successfully created"
       redirect_to order_path(@order)
-      UserMailer.create_order_email(@order.client, @order).deliver_now
+      @order.notify_about_create
     else
       render action: "new"
     end
@@ -72,7 +72,7 @@ class OrdersController < ApplicationController
         format.html { redirect_to order_path(@order) }
         format.js { render :confirm }
       end
-      UserMailer.confirm_order_email(@order.client, @order).deliver_now
+      @order.notify_about_confirm
     else
       render :show  
     end  
@@ -114,7 +114,7 @@ class OrdersController < ApplicationController
         format.html { redirect_to order_path(@order) }
         format.js { render :close }
       end
-      UserMailer.close_order_email(@order.client, @order).deliver_now
+      @order.notify_about_close
     else
       render :show    
     end  
@@ -130,7 +130,7 @@ class OrdersController < ApplicationController
         format.html { redirect_to order_path(@order) }
         format.js { render :reject }
       end
-      UserMailer.reject_order_email(@order.client, @order).deliver_now
+      @order.notify_about_reject
     else
       render :show  
     end
@@ -178,5 +178,7 @@ class OrdersController < ApplicationController
   def clean_order_driver
     @order.update_attributes(driver_id: nil)
   end  
+
+
 
 end

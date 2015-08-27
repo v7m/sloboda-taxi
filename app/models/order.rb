@@ -25,4 +25,20 @@ class Order < ActiveRecord::Base
     end
   end
 
+  def notify_about_create
+    UserMailer.create_order_email(self.client, self).deliver_now
+  end  
+
+  def notify_about_confirm
+    UserMailer.confirm_order_email(self.client, self).deliver_now
+  end  
+
+  def notify_about_close
+    UserMailer.close_order_email(self.client, self).deliver_now
+  end
+
+  def notify_about_reject
+    UserMailer.reject_order_email(self.client, self).deliver_now
+  end
+
 end
