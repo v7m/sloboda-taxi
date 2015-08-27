@@ -48,3 +48,10 @@ test:
   database: sloboda-taxi_test
   pool: 5
   timeout: 5000
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  database: sloboda-taxi_production
+  pool: 5
+  timeout: 5000

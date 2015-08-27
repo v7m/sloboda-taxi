@@ -1,0 +1,38 @@
+= content_for :title, "#{user.firstname} #{user.lastname}"
+.row
+  .small-6.small-centered.columns
+    - if can? :assign_driver, Order 
+      %br
+      = link_to "Previous Page", session.delete(:return_to)
+      %br
+      %nav.breadcrumbs
+        = link_to "Clients", clients_path
+        = link_to "Client #{user.id}", client_path(user), class: 'current'
+    %center
+      %h2= "#{user.firstname} #{user.lastname}"
+      %table{style: "width: 100%"}
+        %tbody
+          %tr 
+            %td ID
+            %td 
+              = user.id     
+          %tr 
+            %td Name 
+            %td 
+              = user.firstname
+              = user.lastname     
+          %tr 
+            %td Phone
+            %td 
+              = user.phone  
+          %tr 
+            %td E-mail
+            %td 
+              = user.email
+          %tr 
+            %td Orders
+            %td
+              = user.client_orders.count
+
+    %center
+      = link_to "Edit Profile", edit_user_registration_path, class: "button tiny round secondary"            

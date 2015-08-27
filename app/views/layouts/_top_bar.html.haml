@@ -16,6 +16,8 @@
               = image_tag :facebook_top, size: "20x20"
             - elsif current_user.has_identity?(:twitter) 
               = image_tag :twitter_top, size: "20x20" 
+            - elsif current_user.has_identity?(:vkontakte) 
+              = image_tag :vkontakte_top, size: "20x20"  
             - else
               = image_tag :email_top, size: "20x20"   
             = "#{current_user.firstname} #{current_user.lastname}"
@@ -48,9 +50,13 @@
       - elsif can? :confirm, Order  
         %li
           = link_to "My Orders", orders_path 
+        %li
+          = link_to "Profile", driver_path(current_user)   
       - elsif can? :create, Order  
+        %li
+          = link_to "New Order", new_order_path  
         %li
           = link_to "My Orders", orders_path  
         %li
-          = link_to "New Order", new_order_path      
+          = link_to "Profile", client_path(current_user)        
       
