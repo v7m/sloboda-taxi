@@ -17,13 +17,13 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: sloboda_development
+  database: sloboda-taxi_development
   pool: 5
   timeout: 5000
   min_messages: warning
   host: localhost
-  username: sloboda
-  password: password1
+  username: ladimyrychtest_dev
+  password: Kkl7RSrJz9
  
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -49,13 +49,13 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: sloboda_test
+  database: sloboda-taxi_test
   pool: 5
   timeout: 5000
   min_messages: warning
   host: localhost
-  username: sloboda
-  password: password1
+  username: ladimyrychtest_dev
+  password: Kkl7RSrJz9
 
 production:
   adapter: postgresql
