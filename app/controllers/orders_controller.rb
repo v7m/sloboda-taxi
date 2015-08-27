@@ -5,33 +5,16 @@ class OrdersController < ApplicationController
 
   def index
     authorize! :read, Order
-    if can? :assign_driver, Order
-      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
-      if @orders_status == "all" 
-        @orders = Order.all.order(updated_at: :desc)
-      else  
-        @orders = Order.with_status(@orders_status.to_sym)
-      end  
-
-    elsif can? :confirm, Order 
-      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
-      if @orders_status == "all" 
-        @orders = Order.where(driver: current_user).order(updated_at: :desc)
-      else  
-        @orders = Order.where(driver: current_user).with_status(@orders_status.to_sym).order(updated_at: :desc)
-      end 
-      @driver = current_user
-
-    elsif can? :create, Order 
-      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
-      if @orders_status == "all" 
-        @orders = Order.where(client: current_user).order(updated_at: :desc)
-      else  
-        @orders = Order.where(client: current_user).with_status(@orders_status.to_sym)
-      end 
-      @client = current_user 
+    @orders_status = params[:orders_status] || "all"
+    if @orders_status == "all"
+      @orders = Order.all.order(updated_at: :desc) if can? :assign_driver, Order
+      @orders = Order.where_user(:driver, current_user) if can? :confirm, Order
+      @orders = Order.where_user(:client, current_user) if can? :create, Order 
+    else
+      @orders = Order.with_status(@orders_status.to_sym) if can? :assign_driver, Order
+      @orders = Order.where_user(:driver, current_user).with_status(@orders_status.to_sym) if can? :confirm, Order
+      @orders = Order.where_user(:client, current_user).with_status(@orders_status.to_sym) if can? :create, Order
     end  
-
     respond_to do |format|
       format.html 
       format.js { render 'sort_index' }

@@ -7,6 +7,7 @@ class Order < ActiveRecord::Base
   enum car_type: { sedan: 0, minivan: 1, truck: 2 }
 
   scope :with_status, -> status { where("status = ?", Order.statuses[status]).order(updated_at: :desc) }
+  scope :where_user, -> role, user { where(role => user).order(updated_at: :desc) }
   
   validates :departure, presence: true,
                        length: { in: 5..25 }
