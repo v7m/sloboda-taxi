@@ -29,20 +29,20 @@ class Order < ActiveRecord::Base
   def self.all_orders(user)
     if user.can?(:assign_driver, Order)
       Order.all.order(updated_at: :desc) 
-    elsif user.can? :confirm, Order  
-      Order.where_user(:driver, current_user) 
-    elsif user.can? :create, Order  
-      Order.where_user(:client, current_user) 
+    elsif user.can?(:confirm, Order)  
+      Order.where_user(:driver, user) 
+    elsif user.can?(:create, Order)  
+      Order.where_user(:client, user) 
     end  
   end  
 
   def self.orders_with_status(user, status) 
-    if user.can? :assign_driver, Order
+    if user.can?(:assign_driver, Order)
       Order.with_status(status.to_sym) 
-    elsif user.can? :confirm, Order  
-      Order.where_user(:driver, current_user).with_status(status.to_sym) 
-    elsif user.can? :create, Order  
-      Order.where_user(:client, current_user).with_status(status.to_sym) 
+    elsif user.can?(:confirm, Order)  
+      Order.where_user(:driver, user).with_status(status.to_sym) 
+    elsif user.can?(:create, Order)  
+      Order.where_user(:client, user).with_status(status.to_sym) 
     end  
   end  
 
