@@ -41,4 +41,8 @@ class Order < ActiveRecord::Base
     UserMailer.reject_order_email(self.client, self).deliver_now
   end
 
+  def websocket_trigger(action)
+    WebsocketRails[:orders].trigger action.to_s, self
+  end  
+
 end
