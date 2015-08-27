@@ -34,8 +34,7 @@ class OrdersController < ApplicationController
 
   def create
     authorize! :create, Order
-    @order = Order.new(order_params)
-    @order.client = current_user
+    @order = Order.new(order_params.merge(client: current_user))
     if @order.save
       WebsocketRails[:orders].trigger 'new', @order  
       flash[:notice] = "Order successfully created"
@@ -155,9 +154,7 @@ class OrdersController < ApplicationController
 
   def destroy_feedback
     authorize! :destroy_feedback, Order
-    @order.feedback = nil
-    @order.rating = nil
-    if @order.save
+    if @order.update_attributes(feedback: nil, rating: nil)
       flash[:notice] = "Feedback successfully rejected"
       respond_to do |format|
         format.html { render action: "show" }
