@@ -1,4 +1,5 @@
 class Order < ActiveRecord::Base
+  
 
   belongs_to :client, class_name: "User"
   belongs_to :driver, class_name: "User"
@@ -24,6 +25,26 @@ class Order < ActiveRecord::Base
       errors.add(:rating, "can't be blank")
     end
   end
+
+  def self.all_orders(user)
+    if user.can?(:assign_driver, Order)
+      Order.all.order(updated_at: :desc) 
+    elsif user.can? :confirm, Order  
+      Order.where_user(:driver, current_user) 
+    elsif user.can? :create, Order  
+      Order.where_user(:client, current_user) 
+    end  
+  end  
+
+  def self.orders_with_status(user, status) 
+    if user.can? :assign_driver, Order
+      Order.with_status(status.to_sym) 
+    elsif user.can? :confirm, Order  
+      Order.where_user(:driver, current_user).with_status(status.to_sym) 
+    elsif user.can? :create, Order  
+      Order.where_user(:client, current_user).with_status(status.to_sym) 
+    end  
+  end  
 
   def notify_about_create
     UserMailer.create_order_email(self.client, self).deliver_now

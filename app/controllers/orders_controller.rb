@@ -6,15 +6,7 @@ class OrdersController < ApplicationController
   def index
     authorize! :read, Order
     @orders_status = params[:orders_status] || "all"
-    if @orders_status == "all"
-      @orders = Order.all.order(updated_at: :desc) if can? :assign_driver, Order
-      @orders = Order.where_user(:driver, current_user) if can? :confirm, Order
-      @orders = Order.where_user(:client, current_user) if can? :create, Order 
-    else
-      @orders = Order.with_status(@orders_status.to_sym) if can? :assign_driver, Order
-      @orders = Order.where_user(:driver, current_user).with_status(@orders_status.to_sym) if can? :confirm, Order
-      @orders = Order.where_user(:client, current_user).with_status(@orders_status.to_sym) if can? :create, Order
-    end  
+    @orders = @orders_status == "all" ? Order.all_orders(current_user) : Order.orders_with_status(current_user, @orders_status)
     respond_to do |format|
       format.html 
       format.js { render 'sort_index' }
