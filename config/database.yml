@@ -20,6 +20,10 @@ development:
   database: sloboda-taxi_development
   pool: 5
   timeout: 5000
+  min_messages: warning
+  host: localhost
+  username: ladimyrychtest_dev
+  password: Kkl7RSrJz9
  
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
@@ -48,10 +52,18 @@ test:
   database: sloboda-taxi_test
   pool: 5
   timeout: 5000
+  min_messages: warning
+  host: localhost
+  username: ladimyrychtest_dev
+  password: Kkl7RSrJz9
 
 production:
   adapter: postgresql
   encoding: unicode
-  database: sloboda-taxi_production
+  database: ladimyrychtest_dev
   pool: 5
   timeout: 5000
+  min_messages: warning
+  host: localhost
+  username: ladimyrychtest_dev
+  password: Kkl7RSrJz9
