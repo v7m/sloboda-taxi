@@ -28,6 +28,7 @@ class User < ActiveRecord::Base
 
   scope :with_role, -> role { where(role: Role.find_by(name: role.to_s)) }  
   scope :with_car_type, -> car_type { where("car_type = ?", Order.car_types[car_type]) }
+  scope :not_busy, -> { where(busy: false) }
 
   validates :firstname, presence: true,
                        length: { in: 1..15 }
@@ -36,7 +37,7 @@ class User < ActiveRecord::Base
   validates :phone, presence: true,
                     length: { in: 5..15 }   
 
-  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update                                                         
+  validates_format_of :email, :without => TEMP_EMAIL_REGEX, on: :update
 
   def has_role?(role_sym)
     role && role.name.underscore.to_sym == role_sym
@@ -46,10 +47,6 @@ class User < ActiveRecord::Base
     identities.find_by("provider = ?", identity_sym)
   end
 
-  def free?
-    driver_orders.count == driver_orders.with_status(:closed).count
-  end  
-
   def rating
     rating_sum = 0.0
     orders_with_rating = self.driver_orders.where.not(rating: nil)
@@ -57,8 +54,11 @@ class User < ActiveRecord::Base
       rating_sum += order.rating.to_f
     end 
     orders_with_rating.count > 0 ? (rating_sum / orders_with_rating.count).round(1) : ""
-  end  
+  end 
 
+  def set_busyness(value)
+    self.update_attributes(busy: value)
+  end 
 
   def self.find_for_oauth(auth, signed_in_resource = nil)
 

@@ -19,7 +19,7 @@
           %tr 
             %td Status
             %td 
-              = user.free? ? "Free" : "Busy"
+              = user.busy? ? "Busy" : "Free"
           %tr 
             %td Rating
             %td 
@@ -70,5 +70,6 @@
                   %td
                     = driver_order.status.capitalize
 
-    %center
-      = link_to "Edit Profile", edit_user_registration_path, class: "button tiny round secondary"                 
+    - if can? :confirm, Order                
+      %center
+        = link_to "Edit Profile", edit_user_registration_path, class: "button tiny round secondary"                 

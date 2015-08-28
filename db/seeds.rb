@@ -98,61 +98,55 @@ admin = User.create(
   )
 
 order1 = Order.create(
-  status: 1, 
+  status: 0, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
   car_type: 1,
-  client: client1,
-  driver: driver1
+  client: client1
   )
 
 order2 = Order.create(
-  status: 1, 
+  status: 0, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
   car_type: 1,
-  client: client2,
-  driver: driver2
+  client: client2
   )
 
 order3 = Order.create(
-  status: 1, 
+  status: 0, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
   car_type: 1,
-  client: client1,
-  driver: driver2
+  client: client1
   )
 
 order4 = Order.create(
-  status: 1, 
+  status: 0, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
   car_type: 1,
-  client: client2,
-  driver: driver1
+  client: client2
   )
 
 order5 = Order.create(
-  status: 1, 
+  status: 0, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
   car_type: 1,
-  client: client2,
-  driver: driver2
+  client: client2
   )
 
 order6 = Order.create(
-  status: 1, 
+  status: 0, 
   departure: Faker::Address.street_address,
   destination: Faker::Address.street_address,
   datetime: Faker::Time.between(DateTime.now - 1, DateTime.now),
   car_type: 1,
-  client: client1,
-  driver: driver2
+  client: client1
   )
