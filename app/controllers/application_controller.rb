@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
     render_500
   end
 
+  def after_sign_in_path_for(resource)
+    orders_path
+  end
+
   def render_500
     render file: "#{Rails.root}/public/500.html", layout: false, status: 500
   end

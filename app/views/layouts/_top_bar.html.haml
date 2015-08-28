@@ -38,8 +38,6 @@
     <!-- Left Nav Section -->
     %ul.left
       - if can? :manage, :all
-        %li  
-          = link_to "Orders", orders_path
         %li
           = link_to "Administration", rails_admin_path
       - elsif can? :assign_driver, Order  
@@ -49,14 +47,10 @@
           = link_to "Drivers", drivers_path  
       - elsif can? :confirm, Order  
         %li
-          = link_to "My Orders", orders_path 
-        %li
           = link_to "Profile", driver_path(current_user)   
       - elsif can? :create, Order  
         %li
-          = link_to "New Order", new_order_path  
-        %li
-          = link_to "My Orders", orders_path  
+          = link_to "New Order", new_order_path 
         %li
           = link_to "Profile", client_path(current_user)        
       
