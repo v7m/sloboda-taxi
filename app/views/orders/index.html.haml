@@ -1,12 +1,7 @@
 = content_for :title, "Orders"
-%center
-  %h2
-    - if can?(:assign_driver, Order)
-      Orders
-    - else
-      My Orders
-
 - if can? :assign_driver, Order
+  %center
+    %h3 Orders
   .row
     .small-2.columns
       .sort_button
@@ -30,22 +25,27 @@
       = render partial: "dispatcher_index", locals: { orders: @orders, orders_status: @orders_status }
 - elsif can? :confirm, Order
   .row
-    .small-2.columns
+    .small-6.columns
+      %center
+        %h3 New Orders
+        .space{style: "height: 56px;"}
+        = render partial: "dispatcher_index", locals: { orders: @new_orders, orders_status: 'opened' }
+    .small-6.columns
+      %center
+        %h3 My Orders
       .sort_button
-        %ul.side-nav{ role: "navigation", title: "Link List" }
-          %li{ role: "menuitem" }
-            = link_to "All", orders_path(orders_status: "all"), data: { orders_status: "pending" }, remote: true
-          %li{ role: "menuitem" }
-            = link_to "Pending", orders_path(orders_status: "pending"), data: { orders_status: "pending" }, remote: true
-          %li{ role: "menuitem" }
-            = link_to "Edited", orders_path(orders_status: "edited"), data: { sorders_status: "edited" }, remote: true
-          %li{ role: "menuitem" }
-            = link_to "Confirmed", orders_path(orders_status: "confirmed"), data: { orders_status: "confirmed" }, remote: true
-          %li{ role: "menuitem" }
-            = link_to "Closed", orders_path(orders_status: "closed"), data: { orders_status: "closed" }, remote: true
-    .small-8.small-centered.columns.index_table
-      = render partial: "driver_index", locals: { orders: @orders, orders_status: @orders_status}
+        %center
+          %ul.button-group
+            %li= link_to "All", orders_path(orders_status: "all"), data: { orders_status: "pending" }, remote: true, class: "button tiny radius"
+            %li= link_to "Pending", orders_path(orders_status: "pending"), data: { orders_status: "pending" }, remote: true, class: "button tiny radius"
+            %li= link_to "Edited", orders_path(orders_status: "edited"), data: { sorders_status: "edited" }, remote: true, class: "button tiny radius"
+            %li= link_to "Confirmed", orders_path(orders_status: "confirmed"), data: { orders_status: "confirmed" }, remote: true, class: "button tiny radius"
+            %li= link_to "Closed", orders_path(orders_status: "closed"), data: { orders_status: "closed" }, remote: true, class: "button tiny radius"
+      .index_table  
+        = render partial: "driver_index", locals: { orders: @orders, orders_status: @orders_status}
 - elsif can? :create, Order
+  %center
+    %h3 My Orders
   .row
     .small-2.columns
       .sort_button

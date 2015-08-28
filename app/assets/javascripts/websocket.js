@@ -79,6 +79,7 @@ channel.bind('close', function(order) {
 
 channel.bind('reject', function(order) {
   changeStatusInAllForDispatcher(order);
+  removeOrderForDispatcher(order, "opened");
   removeOrderForDispatcher(order, "pending");
   removeOrderForDispatcher(order, "edited");
   addOrderForDispatcher(order, "rejected");

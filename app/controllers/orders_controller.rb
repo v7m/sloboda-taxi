@@ -6,6 +6,7 @@ class OrdersController < ApplicationController
   def index
     authorize! :read, Order
     @orders_status = params[:orders_status] || "all"
+    @new_orders = Order.with_status('opened')
     @orders = @orders_status == "all" ? Order.all_orders(current_user) : Order.orders_with_status(current_user, @orders_status)
     respond_to do |format|
       format.html 
@@ -121,7 +122,7 @@ class OrdersController < ApplicationController
     @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
     if @order.rejected!
       driver = @order.driver
-      driver.set_busyness(false)
+      driver.set_busyness(false) if driver.present?
       @order.websocket_trigger(:reject)
       flash[:notice] = "Order successfully rejected"
       respond_to do |format|
