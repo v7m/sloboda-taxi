@@ -9,7 +9,7 @@
           %th Destination
           %th Car
           %th Status 
-      %tbody{ id: "driver_#{@driver.id}_table" }
+      %tbody{ id: "driver_#{current_user.id}_table" }
         - orders.each do |order|
           %tr{ class: "order_#{order.id}" }
             %td{ class: "show_button" } 

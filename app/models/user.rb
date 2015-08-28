@@ -1,4 +1,9 @@
 class User < ActiveRecord::Base
+  def ability
+    @ability ||= Ability.new(self)
+  end
+  delegate :can?, :cannot?, :to => :ability
+  
   TEMP_PHONE_PREFIX = 'need_confirm'
   TEMP_EMAIL_PREFIX = 'need@confirm'
   TEMP_EMAIL_REGEX = /\Aneed@confirm/

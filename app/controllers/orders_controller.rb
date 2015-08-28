@@ -1,37 +1,12 @@
 class OrdersController < ApplicationController
   before_action :authenticate_user! 
   before_action :get_order, except: [:new, :create, :index]
-  after_action :delete_driver, only: :reject
+  after_action :clean_order_driver, only: :reject
 
   def index
     authorize! :read, Order
-    if can? :assign_driver, Order
-      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
-      if @orders_status == "all" 
-        @orders = Order.all.order(updated_at: :desc)
-      else  
-        @orders = Order.with_status(@orders_status.to_sym)
-      end  
-
-    elsif can? :confirm, Order 
-      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
-      if @orders_status == "all" 
-        @orders = Order.where(driver: current_user).order(updated_at: :desc)
-      else  
-        @orders = Order.where(driver: current_user).with_status(@orders_status.to_sym).order(updated_at: :desc)
-      end 
-      @driver = current_user
-
-    elsif can? :create, Order 
-      params[:orders_status] ? @orders_status = params[:orders_status] : @orders_status = "all"
-      if @orders_status == "all" 
-        @orders = Order.where(client: current_user).order(updated_at: :desc)
-      else  
-        @orders = Order.where(client: current_user).with_status(@orders_status.to_sym)
-      end 
-      @client = current_user 
-    end  
-
+    @orders_status = params[:orders_status] || "all"
+    @orders = @orders_status == "all" ? Order.all_orders(current_user) : Order.orders_with_status(current_user, @orders_status)
     respond_to do |format|
       format.html 
       format.js { render 'sort_index' }
@@ -51,13 +26,12 @@ class OrdersController < ApplicationController
 
   def create
     authorize! :create, Order
-    @order = Order.new(order_params)
-    @order.client = current_user
+    @order = Order.new(order_params.merge(client: current_user))
     if @order.save
-      WebsocketRails[:orders].trigger 'new', @order  
+      @order.websocket_trigger(:new)
       flash[:notice] = "Order successfully created"
       redirect_to order_path(@order)
-      UserMailer.create_order_email(@order.client, @order).deliver_now
+      @order.notify_about_create
     else
       render action: "new"
     end
@@ -71,7 +45,7 @@ class OrdersController < ApplicationController
   def assign_driver
     authorize! :assign_driver, Order
     if @order.update(params[:order].permit(:driver_id, :status))
-      WebsocketRails[:orders].trigger 'assign_driver', @order 
+      @order.websocket_trigger(:assign_driver)
       flash[:notice] = "Driver successfully assigned"
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
@@ -85,12 +59,12 @@ class OrdersController < ApplicationController
   def confirm
     authorize! :confirm, Order
     if @order.confirmed!
-      WebsocketRails[:orders].trigger 'confirm', @order 
+      @order.websocket_trigger(:confirm)
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :confirm }
       end
-      UserMailer.confirm_order_email(@order.client, @order).deliver_now
+      @order.notify_about_confirm
     else
       render :show  
     end  
@@ -103,7 +77,7 @@ class OrdersController < ApplicationController
   def change
     authorize! :change, Order
     if @order.update(order_params)
-      WebsocketRails[:orders].trigger 'change', @order
+      @order.websocket_trigger(:change)
       flash[:notice] = "Order successfully updated"
       redirect_to order_path(@order)
     else
@@ -114,7 +88,7 @@ class OrdersController < ApplicationController
   def accept_changes
     authorize! :accept_changes, Order
     if @order.pending!
-      WebsocketRails[:orders].trigger 'accept_changes', @order
+      @order.websocket_trigger(:accept_changes)
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :accept_changes }
@@ -127,12 +101,12 @@ class OrdersController < ApplicationController
   def close
     authorize! :close, Order
     if @order.closed!
-      WebsocketRails[:orders].trigger 'close', @order
+      @order.websocket_trigger(:close)
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :close }
       end
-      UserMailer.close_order_email(@order.client, @order).deliver_now
+      @order.notify_about_close
     else
       render :show    
     end  
@@ -142,13 +116,13 @@ class OrdersController < ApplicationController
     authorize! :reject, Order
     @drivers =  User.with_role(:driver).with_car_type(@order.car_type)
     if @order.rejected!
-      WebsocketRails[:orders].trigger 'reject', @order
+      @order.websocket_trigger(:reject)
       flash[:notice] = "Order successfully rejected"
       respond_to do |format|
         format.html { redirect_to order_path(@order) }
         format.js { render :reject }
       end
-      UserMailer.reject_order_email(@order.client, @order).deliver_now
+      @order.notify_about_reject
     else
       render :show  
     end
@@ -172,9 +146,7 @@ class OrdersController < ApplicationController
 
   def destroy_feedback
     authorize! :destroy_feedback, Order
-    @order.feedback = nil
-    @order.rating = nil
-    if @order.save
+    if @order.update_attributes(feedback: nil, rating: nil)
       flash[:notice] = "Feedback successfully rejected"
       respond_to do |format|
         format.html { render action: "show" }
@@ -195,9 +167,10 @@ class OrdersController < ApplicationController
     params.require(:order).permit(:departure, :destination, :datetime, :car_type, :status)
   end
 
-  def delete_driver
-    @order.driver_id = nil
-    @order.save
+  def clean_order_driver
+    @order.update_attributes(driver_id: nil)
   end  
+
+
 
 end
